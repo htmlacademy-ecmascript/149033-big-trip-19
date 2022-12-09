@@ -6,7 +6,7 @@ const bodyElement = document.querySelector('.page-body');
 const filterElement = bodyElement.querySelector('.trip-controls__filters');
 const tripEventsElement = bodyElement.querySelector('.trip-events');
 
-const boardTripsPresenter = new TripEventsPresenter({boardTripsContainer: tripEventsElement});
+const boardTripsPresenter = new TripEventsPresenter(tripEventsElement);
 render(new FilterView(), filterElement);
 
 boardTripsPresenter.init();
