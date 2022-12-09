@@ -5,7 +5,7 @@ import PointRoute from '../view/point-route.js';
 import FormEditTrip from '../view/form-edit-trip-view.js';
 import { render } from '../render.js';
 
-export default class BoardTripsPresenter {
+export default class TripEventsPresenter {
   routeListComponent = new ListRouteView();
 
   constructor({boardTripsContainer}) {
