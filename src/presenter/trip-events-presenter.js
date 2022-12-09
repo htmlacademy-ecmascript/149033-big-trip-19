@@ -2,7 +2,7 @@ import SortView from '../view/sort-view.js';
 import ListRouteView from '../view/list-route-view.js';
 import CreateNewPoint from '../view/create-new-point-view.js';
 import PointRoute from '../view/point-route.js';
-import FormEditTrip from '../view/form-edit-trip-view.js';
+import EditPoint from '../view/edit-point-view.js';
 import { render } from '../render.js';
 
 export default class TripEventsPresenter {
@@ -19,7 +19,7 @@ export default class TripEventsPresenter {
     for (let i = 0; i < 3; i++) {
       render(new PointRoute(), this.routeListComponent.getElement());
       if( i === 0 ) {
-        render(new FormEditTrip(), this.routeListComponent.getElement());
+        render(new EditPoint(), this.routeListComponent.getElement());
       }
     }
   }

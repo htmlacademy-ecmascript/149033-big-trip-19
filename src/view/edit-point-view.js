@@ -157,7 +157,7 @@ function createEditPointTemplate() {
   </form>
 `;}
 
-export default class FormEditTrip {
+export default class EditPoint {
   getTemplate() {
     return createEditPointTemplate();
   }
