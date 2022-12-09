@@ -164,7 +164,7 @@ function createNewPointTemplate() {
   </form>
 `;}
 
-export default class FormCreationTrip {
+export default class CreateNewPoint {
   getTemplate() {
     return createNewPointTemplate();
   }
