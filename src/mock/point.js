@@ -1,76 +1,95 @@
-import { getRandomArrayElement } from '../utils.js';
-const type = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
+import { getRandomArrayElement, getRandomInt, getRandomBoolean } from '../utils.js';
+import { getRandomIdDestination } from './destination.js';
+import { getRandomIdOffer } from './offer.js';
+import { TYPE } from '../const.js';
 
-const mockDestination = [
-  {
-    id: 1,
-    description: 'Chamonix, is a beautiful city, a true asian pearl, with crowded streets.',
-    name: 'Chamonix',
-    pictures: [
-      {
-        src: 'http://picsum.photos/300/200?r=0.0762563005163317',
-        description: 'Chamonix parliament building'
-      }
-    ]
-  },
-  {
-    id: 2,
-    description: 'Lyon, is a beautiful city, a true asian pearl, with crowded streets.',
-    name: 'Lyon',
-    pictures: [
-      {
-        src: 'https://picsum.photos/200/300?random=1',
-        description: 'Lyon parliament building'
-      }
-    ]
-  },
-  {
-    id: 3,
-    description: 'Strasbourg, is a beautiful city, a true asian pearl, with crowded streets.',
-    name: 'Strasbourg',
-    pictures: [
-      {
-        src: 'https://picsum.photos/200/300?random=2',
-        description: 'Strasbourg parliament building'
-      }
-    ]
-  }
-];
-
-const mockOffer = [
-  {
-    id: 1,
-    title: 'Upgrade to a business class',
-    price: 320
-  },
-  {
-    id: 2,
-    title: 'Do nulla fugiat proident ipsum.',
-    price: 125
-  },
-  {
-    id: 3,
-    title: 'Enim id ipsum cupidatat non non reprehenderit.',
-    price: 220
-  },
-];
-
+const LIMIT_PRICE = 3000;
 
 const mockPoints = [
   {
-    basePrice: 1100,
-    dateFrom: '2019-07-10T22:55:56.845Z',
-    dateTo: '2019-07-11T11:22:13.375Z',
-    destination: getRandomArrayElement(mockDestination).id,
-    id: 0,
-    isFavorite: false,
-    offers: getRandomArrayElement(mockOffer).id,
-    type: getRandomArrayElement(type),
-  }
+    basePrice: getRandomInt(LIMIT_PRICE),
+    dateFrom: '2019-07-18T10:30:56.845Z',
+    dateTo: '2019-07-18T11:00:13.375Z',
+    destination: getRandomIdDestination(),
+    isFavorite: getRandomBoolean(),
+    offers: getRandomIdOffer(),
+    type: getRandomArrayElement(TYPE),
+  },
+  {
+    basePrice: getRandomInt(LIMIT_PRICE),
+    dateFrom: '2019-07-18T12:25:56.845Z',
+    dateTo: '2019-07-18T13:35:13.375Z',
+    destination: getRandomIdDestination(),
+    isFavorite: getRandomBoolean(),
+    offers: getRandomIdOffer(),
+    type: getRandomArrayElement(TYPE),
+  },
+  {
+    basePrice: getRandomInt(LIMIT_PRICE),
+    dateFrom: '2019-07-18T14:30:56.845Z',
+    dateTo: '2019-07-18T16:05:13.375Z',
+    destination: getRandomIdDestination(),
+    isFavorite: getRandomBoolean(),
+    offers: getRandomIdOffer(),
+    type: getRandomArrayElement(TYPE),
+  },
+  {
+    basePrice: getRandomInt(LIMIT_PRICE),
+    dateFrom: '2019-07-18T16:20:56.845Z',
+    dateTo: '2019-07-18T17:00:13.375Z',
+    destination: getRandomIdDestination(),
+    isFavorite: getRandomBoolean(),
+    offers: getRandomIdOffer(),
+    type: getRandomArrayElement(TYPE),
+  },
+  {
+    basePrice: getRandomInt(LIMIT_PRICE),
+    dateFrom: '2019-07-19T01:14:20.375Z',
+    dateTo: '2019-07-19T13:00:56.845Z',
+    destination: getRandomIdDestination(),
+    isFavorite: getRandomBoolean(),
+    offers: getRandomIdOffer(),
+    type: getRandomArrayElement(TYPE),
+  },
+  {
+    basePrice: getRandomInt(LIMIT_PRICE),
+    dateFrom: '2019-07-19T16:00:56.845Z',
+    dateTo: '2019-07-19T17:00:13.375Z',
+    destination: getRandomIdDestination(),
+    isFavorite: getRandomBoolean(),
+    offers: getRandomIdOffer(),
+    type: getRandomArrayElement(TYPE),
+  },
+  {
+    basePrice: getRandomInt(LIMIT_PRICE),
+    dateFrom: '2019-07-19T18:00:56.845Z',
+    dateTo: '2019-07-19T19:00:13.375Z',
+    destination: getRandomIdDestination(),
+    isFavorite: getRandomBoolean(),
+    offers: getRandomIdOffer(),
+    type: getRandomArrayElement(TYPE),
+  },
+  {
+    basePrice: getRandomInt(LIMIT_PRICE),
+    dateFrom: '2019-07-20T08:25:56.845Z',
+    dateTo: '2019-07-20T09:25:13.375Z',
+    destination: getRandomIdDestination(),
+    isFavorite: getRandomBoolean(),
+    offers: getRandomIdOffer(),
+    type: getRandomArrayElement(TYPE),
+  },
+  {
+    basePrice: getRandomInt(LIMIT_PRICE),
+    dateFrom: '2019-07-20T11:15:56.845Z',
+    dateTo: '2019-07-20T12:15:13.375Z',
+    destination: getRandomIdDestination(),
+    isFavorite: getRandomBoolean(),
+    offers: getRandomIdOffer(),
+    type: getRandomArrayElement(TYPE),
+  },
+
 ];
 
-function getRandomPoint() {
-  return getRandomArrayElement(mockPoints);
-}
+const getRandomPoint = () => getRandomArrayElement(mockPoints);
 
 export {getRandomPoint};
