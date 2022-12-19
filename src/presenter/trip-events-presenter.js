@@ -5,6 +5,7 @@ import PointRoute from '../view/point-route.js';
 import EditPoint from '../view/edit-point-view.js';
 import { render } from '../render.js';
 const NUM_EDIT_POINT = 0;
+const LIMIT_POINTS = 3;
 
 export default class TripEventsPresenter {
   routeListComponent = new ListRouteView();
@@ -16,11 +17,11 @@ export default class TripEventsPresenter {
 
   init() {
     this.listPoints = [...this.pointsModel.getPoints()];
-    console.log(this.listPoints);
+
     render(new SortView(), this.tripEventsContainer);
     render(new CreateNewPoint(), this.tripEventsContainer);
     render(this.routeListComponent, this.tripEventsContainer);
-    for (let i = 0; i < this.listPoints.length; i++) {
+    for (let i = 0; i < LIMIT_POINTS; i++) {
       if( i === NUM_EDIT_POINT ) {
         render(new EditPoint(), this.routeListComponent.getElement());
       } else {
