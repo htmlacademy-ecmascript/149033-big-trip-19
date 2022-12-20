@@ -5,8 +5,6 @@ function createPointRouteTemplate(point) {
   const { basePrice, dateFrom, dateTo, destination, isFavorite, offers, type } = point;
   const { description, name, pictures } = destination;
   const { title, price } = offers;
-//  console.log(Object.keys(offers));
- // console.log(point);
   const favoriteClassName = isFavorite ? 'event__favorite-btn--active' : '';
   return `
   <li class="trip-events__item">

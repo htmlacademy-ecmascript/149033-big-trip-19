@@ -91,5 +91,7 @@ const mockPoints = [
 ];
 
 const getRandomPoint = () => getRandomArrayElement(mockPoints);
+
 const getMockPoints = () => mockPoints;
+
 export {getRandomPoint, getMockPoints};

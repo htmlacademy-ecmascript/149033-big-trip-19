@@ -1,19 +1,19 @@
-import { getRandomPoint, getMockPoints } from '../mock/point.js';
+import { getRandomPoint } from '../mock/point.js';
 import { getOffers } from '../mock/offer.js';
 import { getDestinations } from '../mock/destination.js';
-
+const LIMIT_POINT = 4;
+const destinationsList = getDestinations();
+const offersList = getOffers();
 export default class PointsModel {
 
   constructor() {
-    this.destinationsList = getDestinations();
-    this.offersList = getOffers();
-    this.points = Array.from({length: getMockPoints().length}, getRandomPoint);
+    this.points = Array.from({length: LIMIT_POINT}, getRandomPoint);
   }
 
   getPoints() {
     this.points.forEach( (item) => {
-      item.destination = this.destinationsList[item.destination];
-      item.offers = this.offersList[item.offers];
+      item.destination = destinationsList[item.destination];
+      item.offers = offersList[item.offers];
     });
 
     return this.points;
