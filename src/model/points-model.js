@@ -5,9 +5,9 @@ const LIMIT_POINT = 4;
 const destinationsList = getDestinations();
 const offersList = getOffers();
 export default class PointsModel {
-
   constructor() {
     this.points = Array.from({length: LIMIT_POINT}, getRandomPoint);
+
   }
 
   getPoints() {
@@ -15,7 +15,7 @@ export default class PointsModel {
       item.destination = destinationsList[item.destination];
       item.offers = offersList[item.offers];
     });
-
+    console.log(this.points);
     return this.points;
   }
 
