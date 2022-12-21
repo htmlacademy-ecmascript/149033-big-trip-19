@@ -1,7 +1,7 @@
 import { getRandomPoint } from '../mock/point.js';
 import { getOffers } from '../mock/offer.js';
 import { getDestinations } from '../mock/destination.js';
-const LIMIT_POINT = 4;
+const LIMIT_POINT = 8;
 const destinationsList = getDestinations();
 const offersList = getOffers();
 const getPointsAddition = (item) => ({
@@ -17,5 +17,13 @@ export default class PointsModel {
 
   getPoints() {
     return this.points.map( getPointsAddition );
+  }
+
+  getDestinations() {
+    return destinationsList;
+  }
+
+  getOffers() {
+    return offersList;
   }
 }
