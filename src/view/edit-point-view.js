@@ -1,6 +1,7 @@
 import {createElement} from '../render.js';
 import { getDateHumanize } from '../utils.js';
 
+
 const createTypesTemplate = (listType) => listType.map((item) =>
   `<div class="event__type-item">
     <input id="event-type-${item}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${item}">
@@ -12,13 +13,24 @@ const createDestinationListTemplate = (listDestinations) =>
   ${listDestinations.map((item) => `<option value="Amsterdam">${item.name}</option>`).join('')}
   </datalist>`;
 
+const getlastWord = (str) => str.trim().split(' ')[-1];
+
+const isCheckedOffer = (offersCurrent, offersAll) => {};
+const createOffersTemplate = (offers) => offers.map( (item) =>
+  `<div class="event__offer-selector">
+    <input class="event__offer-checkbox  visually-hidden" id="event-offer-${getlastWord(item.title)}-1" type="checkbox" name="event-offer-${getlastWord(item.title)}" checked>
+    <label class="event__offer-label" for="event-offer-${getlastWord(item.title)}-1">
+      <span class="event__offer-title">${item.title}</span>
+      &plus;&euro;&nbsp;
+      <span class="event__offer-price">${item.price}</span>
+    </label>
+  </div>`
+).join('');
 function createEditPointTemplate({point, listOffers, listDestinations, listType}) {
   const { basePrice, dateFrom, dateTo, destination, isFavorite, offers, type } = point;
   const { description, name, pictures } = destination;
-  const { title, price } = offers;
-  const types = createTypesTemplate(listType);
-  const destinations = createDestinationListTemplate(listDestinations);
-  console.log(listDestinations);
+
+  //console.log(listDestinations);
   console.log(listOffers);
   console.log(point);
 
@@ -35,7 +47,7 @@ function createEditPointTemplate({point, listOffers, listDestinations, listType}
         <div class="event__type-list">
           <fieldset class="event__type-group">
             <legend class="visually-hidden">Event type</legend>
-            ${types}
+            ${createTypesTemplate(listType)}
           </fieldset>
         </div>
       </div>
@@ -45,7 +57,7 @@ function createEditPointTemplate({point, listOffers, listDestinations, listType}
           ${type}
         </label>
         <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${name}" list="destination-list-1">
-          ${destinations}
+          ${createDestinationListTemplate(listDestinations)}
       </div>
 
       <div class="event__field-group  event__field-group--time">
@@ -75,50 +87,7 @@ function createEditPointTemplate({point, listOffers, listDestinations, listType}
         <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
         <div class="event__available-offers">
-          <div class="event__offer-selector">
-            <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" checked>
-            <label class="event__offer-label" for="event-offer-luggage-1">
-              <span class="event__offer-title">Add luggage</span>
-              &plus;&euro;&nbsp;
-              <span class="event__offer-price">50</span>
-            </label>
-          </div>
-
-          <div class="event__offer-selector">
-            <input class="event__offer-checkbox  visually-hidden" id="event-offer-comfort-1" type="checkbox" name="event-offer-comfort" checked>
-            <label class="event__offer-label" for="event-offer-comfort-1">
-              <span class="event__offer-title">Switch to comfort</span>
-              &plus;&euro;&nbsp;
-              <span class="event__offer-price">80</span>
-            </label>
-          </div>
-
-          <div class="event__offer-selector">
-            <input class="event__offer-checkbox  visually-hidden" id="event-offer-meal-1" type="checkbox" name="event-offer-meal">
-            <label class="event__offer-label" for="event-offer-meal-1">
-              <span class="event__offer-title">Add meal</span>
-              &plus;&euro;&nbsp;
-              <span class="event__offer-price">15</span>
-            </label>
-          </div>
-
-          <div class="event__offer-selector">
-            <input class="event__offer-checkbox  visually-hidden" id="event-offer-seats-1" type="checkbox" name="event-offer-seats">
-            <label class="event__offer-label" for="event-offer-seats-1">
-              <span class="event__offer-title">Choose seats</span>
-              &plus;&euro;&nbsp;
-              <span class="event__offer-price">5</span>
-            </label>
-          </div>
-
-          <div class="event__offer-selector">
-            <input class="event__offer-checkbox  visually-hidden" id="event-offer-train-1" type="checkbox" name="event-offer-train">
-            <label class="event__offer-label" for="event-offer-train-1">
-              <span class="event__offer-title">Travel by train</span>
-              &plus;&euro;&nbsp;
-              <span class="event__offer-price">40</span>
-            </label>
-          </div>
+        ${createOffersTemplate(listOffers)}
         </div>
       </section>
 

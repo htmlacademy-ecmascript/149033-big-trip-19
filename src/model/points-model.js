@@ -4,11 +4,17 @@ import { getDestinations } from '../mock/destination.js';
 const LIMIT_POINT = 8;
 const destinationsList = getDestinations();
 const offersList = getOffers();
+const getOffersById = (offers) =>
+  offers.map( (item) =>
+    offersList.find( (offerList) => offerList.id === item)
+  );
+
 const getPointsAddition = (item) => ({
   ...item,
   destination: destinationsList[item.destination],
-  offers: offersList[item.offers],
+  offers: getOffersById(item.offers),
 });
+
 
 export default class PointsModel {
   constructor() {
