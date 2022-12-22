@@ -13,12 +13,12 @@ const createDestinationListTemplate = (listDestinations) =>
   ${listDestinations.map((item) => `<option value="Amsterdam">${item.name}</option>`).join('')}
   </datalist>`;
 
-const getlastWord = (str) => str.trim().split(' ')[-1];
+const getlastWord = (str) => str.trim().split(' ').slice(-1);
 
-const isCheckedOffer = (offersCurrent, offersAll) => {};
-const createOffersTemplate = (offers) => offers.map( (item) =>
+const isCheckedOffer = (offer, offersCurrent) => offersCurrent.map( (item) => item.id).includes(offer) ? 'checked' : '';
+const createOffersTemplate = (offersAll, offersCurrent) => offersAll.map( (item) =>
   `<div class="event__offer-selector">
-    <input class="event__offer-checkbox  visually-hidden" id="event-offer-${getlastWord(item.title)}-1" type="checkbox" name="event-offer-${getlastWord(item.title)}" checked>
+    <input class="event__offer-checkbox  visually-hidden" id="event-offer-${getlastWord(item.title)}-1" type="checkbox" name="event-offer-${getlastWord(item.title)}" ${isCheckedOffer(item, offersCurrent)}>
     <label class="event__offer-label" for="event-offer-${getlastWord(item.title)}-1">
       <span class="event__offer-title">${item.title}</span>
       &plus;&euro;&nbsp;
@@ -87,7 +87,7 @@ function createEditPointTemplate({point, listOffers, listDestinations, listType}
         <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
         <div class="event__available-offers">
-        ${createOffersTemplate(listOffers)}
+        ${createOffersTemplate(listOffers, offers)}
         </div>
       </section>
 
