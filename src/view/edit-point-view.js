@@ -15,7 +15,8 @@ const createDestinationListTemplate = (listDestinations) =>
 
 const getlastWord = (str) => str.trim().split(' ').slice(-1);
 
-const isCheckedOffer = (offer, offersCurrent) => offersCurrent.map( (item) => item.id).includes(offer) ? 'checked' : '';
+const isCheckedOffer = (offer, offersCurrent) =>
+  offersCurrent.map( (item) => item.id).includes(offer.id) ? 'checked' : '';
 const createOffersTemplate = (offersAll, offersCurrent) => offersAll.map( (item) =>
   `<div class="event__offer-selector">
     <input class="event__offer-checkbox  visually-hidden" id="event-offer-${getlastWord(item.title)}-1" type="checkbox" name="event-offer-${getlastWord(item.title)}" ${isCheckedOffer(item, offersCurrent)}>
@@ -32,7 +33,7 @@ function createEditPointTemplate({point, listOffers, listDestinations, listType}
 
   //console.log(listDestinations);
   console.log(listOffers);
-  console.log(point);
+  console.log(offers);
 
   return `
   <form class="event event--edit" action="#" method="post">
