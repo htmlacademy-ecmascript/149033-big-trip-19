@@ -37,7 +37,7 @@ const mockOffer = {
 };
 
 const getRandomOffer = () => getRandomArrayElement(mockOffer);
-const getRandomIdOffer = () => getRandomArrayElement(Object.keys(mockOffer));
+const getRandomIdOffer = () => Number(getRandomArrayElement(Object.keys(mockOffer)));
 const getOfferById = (id) => mockOffer[id];
 const getOffers = () => mockOffer;
 

@@ -24,9 +24,10 @@ const getDiffTime = (dateFrom, dateTo) => {
   return `${strHour} ${strMinute}`;
 };
 const getDateLocale = (date) => dayjs(date).format('YYYY-MM-DDThh:mm');
+const getDateHumanize = (date) => dayjs(date).format('DD/MM/YY hh:mm');
 
 const getRandomInt = (max = MAX_RANDOM_INT, min = MIN_RANDOM_INT) => Math.floor(Math.random() * (Math.abs(max - min) + 1)) + min;
 
 const getRandomBoolean = () => Math.floor(Math.random() * 2) === 0;
 
-export {getRandomArrayElement, getRandomInt, getRandomBoolean, getDateFromStr, getTimeFromStr, getDayMonth, getDiffTime, getDateLocale};
+export {getRandomArrayElement, getRandomInt, getRandomBoolean, getDateFromStr, getTimeFromStr, getDayMonth, getDiffTime, getDateLocale, getDateHumanize};

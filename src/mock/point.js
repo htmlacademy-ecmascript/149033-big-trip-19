@@ -4,7 +4,9 @@ import { getRandomIdOffer } from './offer.js';
 import { TYPE } from '../const.js';
 
 const LIMIT_PRICE = 3000;
-
+const LIMIT_OFFERS = 8;
+const getRandomOffers = () => [...new Set(Array.from({length: getRandomInt(LIMIT_OFFERS)}, getRandomIdOffer))];
+console.log(getRandomOffers());
 const mockPoints = [
   {
     basePrice: getRandomInt(LIMIT_PRICE),
@@ -12,7 +14,7 @@ const mockPoints = [
     dateTo: '2019-07-18T11:00:13.375Z',
     destination: 1,
     isFavorite: getRandomBoolean(),
-    offers: 2,
+    offers: 3,
     type: getRandomArrayElement(TYPE),
   },
   {
