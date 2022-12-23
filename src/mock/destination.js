@@ -1,4 +1,5 @@
 import { getRandomArrayElement, getRandomInt } from '../utils.js';
+const LIMIT_PICTURES_LENGTH = 20;
 const descriptionPictures = [
   'Chamonix parliament building',
   'Lyon parliament building',
@@ -6,7 +7,7 @@ const descriptionPictures = [
   'Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus',
 ];
 const getRandomPictures = () =>
-  Array.from({ length: getRandomInt() }, () => ({
+  Array.from({ length: getRandomInt(LIMIT_PICTURES_LENGTH) }, () => ({
     src: `https://picsum.photos/200/300?random=${getRandomInt()}`,
     description: getRandomArrayElement(descriptionPictures),
   }));

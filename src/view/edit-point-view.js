@@ -1,6 +1,7 @@
 import {createElement} from '../render.js';
 import { getDateHumanize } from '../utils.js';
-
+import { TYPE } from '../const.js';
+import dayjs from 'dayjs';
 
 const createTypesTemplate = (listType) => listType.map((item) =>
   `<div class="event__type-item">
@@ -27,14 +28,42 @@ const createOffersTemplate = (offersAll, offersCurrent) => offersAll.map( (item)
     </label>
   </div>`
 ).join('');
-function createEditPointTemplate({point, listOffers, listDestinations, listType}) {
-  const { basePrice, dateFrom, dateTo, destination, isFavorite, offers, type } = point;
-  const { description, name, pictures } = destination;
 
-  //console.log(listDestinations);
-  console.log(listOffers);
-  console.log(offers);
+const creatPhotosContainerTemplate = (destination) =>
+  `<div class="event__photos-container">
+    <div class="event__photos-tape">
+      ${destination.pictures.map((item) => `<img class="event__photo" src="${item.src}" alt="Event photo">`).join('')}
+    </div>
+  </div>`;
 
+const showSectionDestination = (destination) =>
+  destination.description !== '' ? `<section class="event__section  event__section--destination">
+                            <h3 class="event__section-title  event__section-title--destination">Destination</h3>
+                            <p class="event__destination-description">${destination.description}</p>
+                            ${creatPhotosContainerTemplate(destination)}
+                          </section>` : '';
+const currentDate = dayjs();
+const pointDefault = {
+  basePrice: 0,
+  dateFrom: currentDate,
+  dateTo: currentDate,
+  destination: {
+    description: '',
+    name: '',
+    pictures: [{src: ''}],
+  },
+  isFavorite: false,
+  offers:  [{
+    id: null,
+    title: '',
+    price: 0,
+  }],
+  type: TYPE[0],
+};
+
+function createEditPointTemplate({ listOffers, listDestinations, listType, point = pointDefault}) {
+  const { basePrice, dateFrom, dateTo, destination, offers, type } = point;
+  const { name } = destination;
   return `
   <form class="event event--edit" action="#" method="post">
     <header class="event__header">
@@ -91,11 +120,7 @@ function createEditPointTemplate({point, listOffers, listDestinations, listType}
         ${createOffersTemplate(listOffers, offers)}
         </div>
       </section>
-
-      <section class="event__section  event__section--destination">
-        <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-        <p class="event__destination-description">Chamonix-Mont-Blanc (usually shortened to Chamonix) is a resort area near the junction of France, Switzerland and Italy. At the base of Mont Blanc, the highest summit in the Alps, it's renowned for its skiing.</p>
-      </section>
+      ${showSectionDestination(destination)}
     </section>
   </form>
 `;}

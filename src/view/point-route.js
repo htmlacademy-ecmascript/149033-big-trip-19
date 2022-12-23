@@ -10,7 +10,7 @@ const createItemOfferTemplate = (offers) =>
 
 function createPointRouteTemplate(point) {
   const { basePrice, dateFrom, dateTo, destination, isFavorite, offers, type } = point;
-  const { description, name, pictures } = destination;
+  const { name} = destination;
 
   const favoriteClassName = isFavorite ? 'event__favorite-btn--active' : '';
   return `
