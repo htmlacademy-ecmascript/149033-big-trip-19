@@ -29,7 +29,7 @@ const createOffersTemplate = (offersAll, offersCurrent) => offersAll.map( (item)
   </div>`
 ).join('');
 
-const creatPhotosContainerTemplate = (destination) =>
+const createPhotosContainerTemplate = (destination) =>
   `<div class="event__photos-container">
     <div class="event__photos-tape">
       ${destination.pictures.map((item) => `<img class="event__photo" src="${item.src}" alt="Event photo">`).join('')}
@@ -40,7 +40,7 @@ const showSectionDestination = (destination) =>
   destination.description !== '' ? `<section class="event__section  event__section--destination">
                             <h3 class="event__section-title  event__section-title--destination">Destination</h3>
                             <p class="event__destination-description">${destination.description}</p>
-                            ${creatPhotosContainerTemplate(destination)}
+                            ${createPhotosContainerTemplate(destination)}
                           </section>` : '';
 const currentDate = dayjs();
 const pointDefault = {
