@@ -1,5 +1,6 @@
 import {createElement} from '../render.js';
 import { getDateFromStr, getTimeFromStr, getDayMonth, getDiffTime, getDateLocale } from '../utils.js';
+
 const createItemOfferTemplate = (offers) =>
   offers.map( (item) =>
     `<li class="event__offer">

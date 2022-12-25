@@ -1,6 +1,7 @@
 import { getRandomPoint } from '../mock/point.js';
 import { getOffers } from '../mock/offer.js';
 import { getDestinations } from '../mock/destination.js';
+
 const LIMIT_POINT = 8;
 const destinationsList = getDestinations();
 const offersList = getOffers();

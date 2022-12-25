@@ -1,7 +1,8 @@
 import { getRandomInt } from '../utils.js';
 import { getRandomArrayElement } from '../utils.js';
+
 const LIMIT_PRICE = 500;
-const mockOffer = [
+const offers = [
   {
     id: 1,
     title: 'Order Uber',
@@ -39,9 +40,9 @@ const mockOffer = [
   },
 ];
 
-const getRandomOffer = () => getRandomArrayElement(mockOffer);
-const getRandomIdOffer = () => getRandomArrayElement(mockOffer).id;
-const getOfferById = (id) => mockOffer[id];
-const getOffers = () => mockOffer;
+const getRandomOffer = () => getRandomArrayElement(offers);
+const getRandomIdOffer = () => getRandomArrayElement(offers).id;
+const getOfferById = (id) => offers[id];
+const getOffers = () => offers;
 
 export {getRandomOffer, getRandomIdOffer, getOfferById, getOffers};

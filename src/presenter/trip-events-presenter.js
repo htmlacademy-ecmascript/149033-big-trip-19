@@ -4,6 +4,7 @@ import PointRoute from '../view/point-route.js';
 import EditPoint from '../view/edit-point-view.js';
 import { render } from '../render.js';
 import { TYPE } from '../const.js';
+
 const NUM_EDIT_POINT = 0;
 const LIMIT_POINTS = 3;
 

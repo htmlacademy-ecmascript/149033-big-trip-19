@@ -1,4 +1,5 @@
 import { getRandomArrayElement, getRandomInt } from '../utils.js';
+
 const LIMIT_PICTURES_LENGTH = 20;
 const descriptionPictures = [
   'Chamonix parliament building',
