@@ -18,14 +18,14 @@ export default class TripEventsPresenter {
 
   init() {
     this.listPoints = [...this.pointsModel.getPoints()];
-    this.listOffers = this.pointsModel.getOffers();
-    this.listDestinations = Object.values(this.pointsModel.getDestinations());
+    this.offers = this.pointsModel.getOffers();
+    this.destinations = Object.values(this.pointsModel.getDestinations());
     render(new SortView(), this.tripEventsContainer);
-    render(new EditPoint({listOffers: this.listOffers, listDestinations: this.listDestinations, listType: TYPE}), this.tripEventsContainer);
+    render(new EditPoint({listOffers: this.offers, listDestinations: this.destinations, listType: TYPE}), this.tripEventsContainer);
     render(this.routeListComponent, this.tripEventsContainer);
     for (let i = 0; i < LIMIT_POINTS; i++) {
       if( i === NUM_EDIT_POINT ) {
-        render(new EditPoint({listOffers: this.listOffers, listDestinations: this.listDestinations, listType: TYPE, point: this.listPoints[i]}), this.routeListComponent.getElement());
+        render(new EditPoint({listOffers: this.offers, listDestinations: this.destinations, listType: TYPE, point: this.listPoints[i]}), this.routeListComponent.getElement());
       } else {
         render(new PointRoute(this.listPoints[i]), this.routeListComponent.getElement());
       }
