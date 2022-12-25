@@ -14,14 +14,14 @@ const createDestinationListTemplate = (listDestinations) =>
   ${listDestinations.map((item) => `<option value="Amsterdam">${item.name}</option>`).join('')}
   </datalist>`;
 
-const getlastWord = (str) => str.trim().split(' ').slice(-1);
+const getLastWord = (str) => str.trim().split(' ').slice(-1);
 
 const isCheckedOffer = (offer, offersCurrent) =>
   offersCurrent.map( (item) => item.id).includes(offer.id) ? 'checked' : '';
 const createOffersTemplate = (offersAll, offersCurrent) => offersAll.map( (item) =>
   `<div class="event__offer-selector">
-    <input class="event__offer-checkbox  visually-hidden" id="event-offer-${getlastWord(item.title)}-1" type="checkbox" name="event-offer-${getlastWord(item.title)}" ${isCheckedOffer(item, offersCurrent)}>
-    <label class="event__offer-label" for="event-offer-${getlastWord(item.title)}-1">
+    <input class="event__offer-checkbox  visually-hidden" id="event-offer-${getLastWord(item.title)}-1" type="checkbox" name="event-offer-${getLastWord(item.title)}" ${isCheckedOffer(item, offersCurrent)}>
+    <label class="event__offer-label" for="event-offer-${getLastWord(item.title)}-1">
       <span class="event__offer-title">${item.title}</span>
       &plus;&euro;&nbsp;
       <span class="event__offer-price">${item.price}</span>
