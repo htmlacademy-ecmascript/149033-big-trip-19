@@ -13,30 +13,33 @@ const getRandomPictures = () =>
     description: getRandomArrayElement(descriptionPictures),
   }));
 
-const mockDestination = {
-  1: {
+const mockDestination = [
+  {
+    id: 1,
     description: 'Chamonix, is a beautiful city, a true asian pearl, with crowded streets.',
     name: 'Chamonix',
     pictures: getRandomPictures(),
   },
-  2: {
+  {
+    id: 2,
     description: 'Lyon, is a beautiful city, a true asian pearl, with crowded streets.',
     name: 'Lyon',
     pictures: getRandomPictures(),
   },
-  3: {
+  {
+    id: 3,
     description: 'Strasbourg, is a beautiful city, a true asian pearl, with crowded streets.',
     name: 'Strasbourg',
     pictures: getRandomPictures(),
   },
-};
+];
 
 const getRandomDestination = () => getRandomArrayElement(mockDestination);
 const getRandomIdDestination = () =>
   getRandomArrayElement(
     Object.keys(mockDestination).map((item) => Number(item))
   );
-const getDestinationById = (id) => mockDestination[id];
+const getDestinationById = (idInput) => mockDestination.find( (item) => item.id === idInput);
 const getDestinations = () => mockDestination;
 
 export {

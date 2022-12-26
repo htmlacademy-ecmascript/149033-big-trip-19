@@ -9,6 +9,7 @@ const createTypesTemplate = (listType) => listType.map((item) =>
     <label class="event__type-label  event__type-label--${item}" for="event-type-${item}-1">${item}</label>
   </div>`
 ).join('');
+
 const createDestinationListTemplate = (listDestinations) =>
   `<datalist id="destination-list-1">
   ${listDestinations.map((item) => `<option value="Amsterdam">${item.name}</option>`).join('')}
@@ -36,22 +37,19 @@ const createPhotosContainerTemplate = (destination) =>
     </div>
   </div>`;
 
-const showSectionDestination = (destination) =>
-  destination.description !== '' ? `<section class="event__section  event__section--destination">
+const showSectionDestination = (destination ) =>
+  destination !== undefined ? `<section class="event__section  event__section--destination">
                             <h3 class="event__section-title  event__section-title--destination">Destination</h3>
                             <p class="event__destination-description">${destination.description}</p>
                             ${createPhotosContainerTemplate(destination)}
                           </section>` : '';
+const getDestinationByName = (nameCurrent, destinations) => destinations.find( (item) => item.name === nameCurrent);
 const currentDate = dayjs();
 const pointDefault = {
   basePrice: 0,
   dateFrom: currentDate,
   dateTo: currentDate,
-  destination: {
-    description: '',
-    name: '',
-    pictures: [{src: ''}],
-  },
+  destination: '',
   isFavorite: false,
   offers:  [{
     id: null,
@@ -60,10 +58,11 @@ const pointDefault = {
   }],
   type: TYPE[0],
 };
+const getOffersByType = (typeCurrent, offers) => offers.find((item) => item.type === typeCurrent).offers;
+function createEditPointTemplate({ listOffers, listDestinations, listType, point = pointDefault }) {
 
-function createEditPointTemplate({ listOffers, listDestinations, listType, point = pointDefault}) {
   const { basePrice, dateFrom, dateTo, destination, offers, type } = point;
-  const { name } = destination;
+
   return `
   <form class="event event--edit" action="#" method="post">
     <header class="event__header">
@@ -86,7 +85,7 @@ function createEditPointTemplate({ listOffers, listDestinations, listType, point
         <label class="event__label  event__type-output" for="event-destination-1">
           ${type}
         </label>
-        <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${name}" list="destination-list-1">
+        <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination}" list="destination-list-1">
           ${createDestinationListTemplate(listDestinations)}
       </div>
 
@@ -117,10 +116,10 @@ function createEditPointTemplate({ listOffers, listDestinations, listType, point
         <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
         <div class="event__available-offers">
-        ${createOffersTemplate(listOffers, offers)}
+        ${createOffersTemplate(getOffersByType(type, listOffers), offers)}
         </div>
       </section>
-      ${showSectionDestination(destination)}
+      ${showSectionDestination(getDestinationByName(destination, listDestinations))}
     </section>
   </form>
 `;}

@@ -1,8 +1,42 @@
-import { getRandomInt } from '../utils.js';
-import { getRandomArrayElement } from '../utils.js';
+import { getRandomInt, getRandomArrayElement } from '../utils.js';
 
+const idsByType = [
+  {
+    type: 'taxi',
+    offers: [1,2,7],
+  },
+  {
+    type: 'bus',
+    offers: [3,4,5,6],
+  },
+  {
+    type: 'ship',
+    offers: [4,7,6,2],
+  },
+  {
+    type: 'drive',
+    offers: [1,3,5,7,2],
+  },
+  {
+    type: 'flight',
+    offers: [5,2,7,4],
+  },
+  {
+    type: 'check-in',
+    offers: [2,3,4,7],
+  },
+  {
+    type: 'sightseeing',
+    offers: [2,7,4,6],
+  },
+  {
+    type: 'restaurant',
+    offers: [2,7,3,4],
+  },
+];
 const LIMIT_PRICE = 500;
-const offers = [
+
+const offersAll = [
   {
     id: 1,
     title: 'Order Uber',
@@ -39,10 +73,20 @@ const offers = [
     price: getRandomInt(LIMIT_PRICE)
   },
 ];
+const getRandomOffer = () => getRandomArrayElement(offersAll);
+const getRandomIdOffer = () => getRandomArrayElement(offersAll).id;
 
-const getRandomOffer = () => getRandomArrayElement(offers);
-const getRandomIdOffer = () => getRandomArrayElement(offers).id;
-const getOfferById = (id) => offers[id];
-const getOffers = () => offers;
+const getRandomIdsByType = () => idsByType.map( (itemId) => ({
+  ...itemId,
+  offers: itemId.offers.slice(getRandomInt( itemId.offers.length) ),
+}) );
 
-export {getRandomOffer, getRandomIdOffer, getOfferById, getOffers};
+const offersByType = idsByType.map( (itemId) => ({
+  ...itemId,
+  offers: itemId.offers.map( (item) => offersAll.find( (offer) => offer.id === item))
+}) );
+
+const getOfferById = (id) => offersAll[id];
+const getOffers = () => offersByType;
+
+export {getRandomOffer, getRandomIdOffer, getOfferById, getOffers, getRandomIdsByType};

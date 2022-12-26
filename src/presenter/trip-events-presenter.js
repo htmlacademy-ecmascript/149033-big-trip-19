@@ -1,6 +1,6 @@
 import SortView from '../view/sort-view.js';
 import ListRouteView from '../view/list-route-view.js';
-import PointRoute from '../view/point-route.js';
+import PointRoute from '../view/point-route-view.js';
 import EditPoint from '../view/edit-point-view.js';
 import { render } from '../render.js';
 import { TYPE } from '../const.js';
@@ -11,23 +11,27 @@ const LIMIT_POINTS = 3;
 export default class TripEventsPresenter {
   routeListComponent = new ListRouteView();
 
-  constructor(tripEventsElement, pointsModel) {
+  constructor(tripEventsElement, pointsModel, offersModel, destinationsModel) {
     this.tripEventsContainer = tripEventsElement;
     this.pointsModel = pointsModel;
+    this.offersModel = offersModel;
+    this.destinationsModel = destinationsModel;
   }
 
   init() {
-    this.listPoints = [...this.pointsModel.getPoints()];
-    this.offers = this.pointsModel.getOffers();
-    this.destinations = Object.values(this.pointsModel.getDestinations());
+
+    this.offers = this.offersModel.getOffers();
+    this.destinations = this.destinationsModel.getDestinations();
+    this.points = [...this.pointsModel.getPointsWithDestinations(this.destinations, this.offers)];
+
     render(new SortView(), this.tripEventsContainer);
     render(new EditPoint({listOffers: this.offers, listDestinations: this.destinations, listType: TYPE}), this.tripEventsContainer);
     render(this.routeListComponent, this.tripEventsContainer);
     for (let i = 0; i < LIMIT_POINTS; i++) {
       if( i === NUM_EDIT_POINT ) {
-        render(new EditPoint({listOffers: this.offers, listDestinations: this.destinations, listType: TYPE, point: this.listPoints[i]}), this.routeListComponent.getElement());
+        render(new EditPoint({listOffers: this.offers, listDestinations: this.destinations, listType: TYPE, point: this.points[i]}), this.routeListComponent.getElement());
       } else {
-        render(new PointRoute(this.listPoints[i]), this.routeListComponent.getElement());
+        render(new PointRoute(this.points[i]), this.routeListComponent.getElement());
       }
     }
   }

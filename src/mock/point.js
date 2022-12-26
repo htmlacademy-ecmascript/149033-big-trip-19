@@ -1,11 +1,10 @@
 import { getRandomArrayElement, getRandomInt, getRandomBoolean } from '../utils.js';
 import { getRandomIdDestination } from './destination.js';
-import { getRandomIdOffer } from './offer.js';
+import { getRandomIdsByType } from './offer.js';
 import { TYPE } from '../const.js';
 
 const LIMIT_PRICE = 3000;
-const LIMIT_OFFERS = 8;
-const getRandomOffersIds = () => [...new Set(Array.from({length: getRandomInt(LIMIT_OFFERS)}, getRandomIdOffer))];
+
 const mockPoints = [
   {
     basePrice: getRandomInt(LIMIT_PRICE),
@@ -13,7 +12,7 @@ const mockPoints = [
     dateTo: '2019-07-18T11:00:13.375Z',
     destination: 1,
     isFavorite: getRandomBoolean(),
-    offers:  getRandomOffersIds(),
+    offers:  [],
     type: getRandomArrayElement(TYPE),
   },
   {
@@ -22,7 +21,7 @@ const mockPoints = [
     dateTo: '2019-07-18T13:35:13.375Z',
     destination: 3,
     isFavorite: getRandomBoolean(),
-    offers:  getRandomOffersIds(),
+    offers:  [],
     type: getRandomArrayElement(TYPE),
   },
   {
@@ -31,7 +30,7 @@ const mockPoints = [
     dateTo: '2019-07-18T16:05:13.375Z',
     destination: 1,
     isFavorite: getRandomBoolean(),
-    offers:  getRandomOffersIds(),
+    offers:  [],
     type: getRandomArrayElement(TYPE),
   },
   {
@@ -40,7 +39,7 @@ const mockPoints = [
     dateTo: '2019-07-18T17:00:13.375Z',
     destination: 3,
     isFavorite: getRandomBoolean(),
-    offers:  getRandomOffersIds(),
+    offers:  [],
     type: getRandomArrayElement(TYPE),
   },
   {
@@ -49,7 +48,7 @@ const mockPoints = [
     dateTo: '2019-07-19T13:00:56.845Z',
     destination: 3,
     isFavorite: getRandomBoolean(),
-    offers:  getRandomOffersIds(),
+    offers:  [],
     type: getRandomArrayElement(TYPE),
   },
   {
@@ -58,7 +57,7 @@ const mockPoints = [
     dateTo: '2019-07-19T17:00:13.375Z',
     destination: 2,
     isFavorite: getRandomBoolean(),
-    offers:  getRandomOffersIds(),
+    offers:  [],
     type: getRandomArrayElement(TYPE),
   },
   {
@@ -67,7 +66,7 @@ const mockPoints = [
     dateTo: '2019-07-19T19:00:13.375Z',
     destination: 1,
     isFavorite: getRandomBoolean(),
-    offers:  getRandomOffersIds(),
+    offers:  [],
     type: getRandomArrayElement(TYPE),
   },
   {
@@ -76,7 +75,7 @@ const mockPoints = [
     dateTo: '2019-07-20T09:25:13.375Z',
     destination: getRandomIdDestination(),
     isFavorite: getRandomBoolean(),
-    offers:  getRandomOffersIds(),
+    offers:  [],
     type: getRandomArrayElement(TYPE),
   },
   {
@@ -85,14 +84,20 @@ const mockPoints = [
     dateTo: '2019-07-20T12:15:13.375Z',
     destination: getRandomIdDestination(),
     isFavorite: getRandomBoolean(),
-    offers:  getRandomOffersIds(),
+    offers:  [],
     type: getRandomArrayElement(TYPE),
   },
 
 ];
 
-const getRandomPoint = () => getRandomArrayElement(mockPoints);
+const getMockPointsByIdsType = () => mockPoints.map( (item) => ({
+  ...item,
+  ...getRandomIdsByType().find( (offer) => offer.type === item.type),
+}));
 
-const getMockPoints = () => mockPoints;
+
+const getRandomPoint = () => getRandomArrayElement(getMockPointsByIdsType());
+
+const getMockPoints = () => getMockPointsByIdsType();
 
 export {getRandomPoint, getMockPoints};

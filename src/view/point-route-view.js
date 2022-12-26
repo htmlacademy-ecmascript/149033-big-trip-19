@@ -1,6 +1,7 @@
 import {createElement} from '../render.js';
 import { getDateFromStr, getTimeFromStr, getDayMonth, getDiffTime, getDateLocale } from '../utils.js';
 
+
 const createItemOfferTemplate = (offers) =>
   offers.map( (item) =>
     `<li class="event__offer">
@@ -10,8 +11,7 @@ const createItemOfferTemplate = (offers) =>
     </li>`).join('');
 
 function createPointRouteTemplate(point) {
-  const { basePrice, dateFrom, dateTo, destination, isFavorite, offers, type } = point;
-  const { name} = destination;
+  const { basePrice, dateFrom, dateTo, destination, isFavorite, type } = point;
 
   const favoriteClassName = isFavorite ? 'event__favorite-btn--active' : '';
   return `
@@ -21,7 +21,7 @@ function createPointRouteTemplate(point) {
     <div class="event__type">
       <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
     </div>
-    <h3 class="event__title">${type} ${name}</h3>
+    <h3 class="event__title">${type} ${destination}</h3>
     <div class="event__schedule">
       <p class="event__time">
         <time class="event__start-time" datetime=${getDateLocale(dateFrom)}>${getTimeFromStr(dateFrom)}</time>
@@ -35,7 +35,7 @@ function createPointRouteTemplate(point) {
     </p>
     <h4 class="visually-hidden">Offers:</h4>
     <ul class="event__selected-offers">
-    ${createItemOfferTemplate(offers)}
+    ${createItemOfferTemplate(point.offers)}
     </ul>
     <button class="event__favorite-btn ${favoriteClassName}" type="button">
       <span class="visually-hidden">Add to favorite</span>

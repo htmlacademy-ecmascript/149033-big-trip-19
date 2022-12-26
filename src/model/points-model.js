@@ -1,20 +1,6 @@
 import { getRandomPoint } from '../mock/point.js';
-import { getOffers } from '../mock/offer.js';
-import { getDestinations } from '../mock/destination.js';
 
 const LIMIT_POINT = 8;
-const destinationsList = getDestinations();
-const offersList = getOffers();
-const getOffersById = (offers) =>
-  offers.map( (item) =>
-    offersList.find( (offerList) => offerList.id === item)
-  );
-
-const getPointsAddition = (item) => ({
-  ...item,
-  destination: destinationsList[item.destination],
-  offers: getOffersById(item.offers),
-});
 
 
 export default class PointsModel {
@@ -23,14 +9,20 @@ export default class PointsModel {
   }
 
   getPoints() {
+    return this.points;
+  }
+
+  getPointsWithDestinations(destinations, offers) {
+
+    const getOfferByType = (typeCurrent) => offers.find( (item) => item.type === typeCurrent);
+
+    const getPointsAddition = (item) => ({
+      ...item,
+      destination: destinations.find( (destination) => destination.id === item.destination).name,
+      offers: getOfferByType(item.type).offers.filter( (offer) => item.offers.includes(offer.id)),
+    });
+
     return this.points.map( getPointsAddition );
   }
 
-  getDestinations() {
-    return destinationsList;
-  }
-
-  getOffers() {
-    return offersList;
-  }
 }
