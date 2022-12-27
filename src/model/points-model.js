@@ -4,12 +4,10 @@ const LIMIT_POINT = 8;
 
 
 export default class PointsModel {
-  constructor() {
-    this.points = Array.from({length: LIMIT_POINT}, getRandomPoint);
-  }
+  #points = Array.from({length: LIMIT_POINT}, getRandomPoint);
 
   getPoints() {
-    return this.points;
+    return this.#points;
   }
 
   getPointsWithDestinations(destinations, offers) {
@@ -21,7 +19,7 @@ export default class PointsModel {
       destination: destinations.find( (destination) => destination.id === item.destination).name,
       offers: getOfferByType(item.type).offers.filter( (offer) => item.offers.includes(offer.id)),
     });
-    return this.points.map( getPointsAddition );
+    return this.#points.map( getPointsAddition );
   }
 
 }

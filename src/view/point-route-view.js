@@ -51,24 +51,27 @@ function createPointRouteTemplate(point) {
 `;}
 
 export default class PointRoute {
+  #point = null;
+  #element = null;
+
   constructor(point) {
-    this.point = point;
+    this.#point = point;
   }
 
   getTemplate() {
-    return createPointRouteTemplate(this.point);
+    return createPointRouteTemplate(this.#point);
   }
 
   getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+    if (!this.#element) {
+      this.#element = createElement(this.getTemplate());
     }
 
-    return this.element;
+    return this.#element;
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
 }
 

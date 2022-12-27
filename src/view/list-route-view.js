@@ -7,19 +7,20 @@ function createListRouteTemplate() {
 }
 
 export default class ListRouteView {
+  #element = null;
   getTemplate() {
     return createListRouteTemplate();
   }
 
   getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+    if (!this.#element) {
+      this.#element = createElement(this.getTemplate());
     }
 
-    return this.element;
+    return this.#element;
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
 }

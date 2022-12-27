@@ -59,6 +59,7 @@ const pointDefault = {
   type: TYPE[0],
 };
 const getOffersByType = (typeCurrent, offers) => offers.find((item) => item.type === typeCurrent).offers;
+
 function createEditPointTemplate({ listOffers, listDestinations, listType, point = pointDefault }) {
 
   const { basePrice, dateFrom, dateTo, destination, offers, type } = point;
@@ -125,23 +126,26 @@ function createEditPointTemplate({ listOffers, listDestinations, listType, point
 `;}
 
 export default class EditPoint {
+  #point = null;
+  #element = null;
+
   constructor(point) {
-    this.point = point;
+    this.#point = point;
   }
 
   getTemplate() {
-    return createEditPointTemplate(this.point);
+    return createEditPointTemplate(this.#point);
   }
 
   getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+    if (!this.#element) {
+      this.#element = createElement(this.getTemplate());
     }
 
-    return this.element;
+    return this.#element;
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
 }
