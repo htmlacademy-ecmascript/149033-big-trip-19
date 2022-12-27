@@ -50,7 +50,7 @@ function createPointRouteTemplate(point) {
 </li>
 `;}
 
-export default class PointRoute {
+export default class Point {
   #point = null;
   #element = null;
 
@@ -58,13 +58,13 @@ export default class PointRoute {
     this.#point = point;
   }
 
-  getTemplate() {
+  get template() {
     return createPointRouteTemplate(this.#point);
   }
 
-  getElement() {
+  get element() {
     if (!this.#element) {
-      this.#element = createElement(this.getTemplate());
+      this.#element = createElement(this.template);
     }
 
     return this.#element;

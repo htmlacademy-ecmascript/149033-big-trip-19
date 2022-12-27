@@ -166,13 +166,13 @@ function createNewPointTemplate() {
 
 export default class CreateNewPoint {
   #element = null;
-  getTemplate() {
+  get template() {
     return createNewPointTemplate();
   }
 
-  getElement() {
+  get element() {
     if (!this.#element) {
-      this.#element = createElement(this.getTemplate());
+      this.#element = createElement(this.template);
     }
 
     return this.#element;

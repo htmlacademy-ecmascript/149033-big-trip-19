@@ -1,6 +1,6 @@
 import { getRandomPoint } from '../mock/point.js';
 
-const LIMIT_POINT = 8;
+const LIMIT_POINT = 20;
 
 
 export default class PointsModel {
