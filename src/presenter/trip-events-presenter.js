@@ -4,6 +4,7 @@ import Point from '../view/point-view.js';
 import EditPoint from '../view/edit-point-view.js';
 import { render } from '../render.js';
 import { TYPE } from '../const.js';
+import ListEmptyView from '../view/list-empty-view.js';
 
 
 const LIMIT_POINTS = 5;
@@ -17,6 +18,7 @@ export default class TripEventsPresenter {
   #offers = null;
   #destinations = null;
   #points = [];
+  #listEmptyComponent = null;
 
   constructor(tripEventsElement, pointsModel, offersModel, destinationsModel) {
     this.#tripEventsContainer = tripEventsElement;
@@ -26,12 +28,16 @@ export default class TripEventsPresenter {
   }
 
   init() {
-
+    this.#listEmptyComponent = new ListEmptyView();
     this.#offers = this.#offersModel.getOffers();
     this.#destinations = this.#destinationsModel.getDestinations();
     this.#points = [...this.#pointsModel.getPointsWithDestinations(this.#destinations, this.#offers)];
+    if( this.#points.length === 0 ){
+      render( this.#listEmptyComponent, this.#tripEventsContainer);
+    } else {
+      this.#renderEventsList();
+    }
 
-    this.#renderEventsList();
   }
 
   #renderPoint(point) {
