@@ -1,8 +1,8 @@
+import {render} from '../framework/render.js';
 import SortView from '../view/sort-view.js';
 import EventsListView from '../view/events-list-view.js';
 import Point from '../view/point-view.js';
 import EditPoint from '../view/edit-point-view.js';
-import { render } from '../render.js';
 import { TYPE } from '../const.js';
 import ListEmptyView from '../view/list-empty-view.js';
 

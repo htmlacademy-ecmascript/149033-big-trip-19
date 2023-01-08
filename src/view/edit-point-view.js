@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 import { getDateHumanize } from '../utils.js';
 import { TYPE } from '../const.js';
 import dayjs from 'dayjs';
@@ -127,11 +127,11 @@ function createEditPointTemplate({ listOffers, listDestinations, listType, point
   </li>
 `;}
 
-export default class EditPoint {
+export default class EditPoint extends AbstractView{
   #point = null;
-  #element = null;
 
   constructor(point) {
+    super();
     this.#point = point;
   }
 
@@ -139,15 +139,4 @@ export default class EditPoint {
     return createEditPointTemplate(this.#point);
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
-  }
 }
