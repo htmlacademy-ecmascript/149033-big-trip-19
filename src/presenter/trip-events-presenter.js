@@ -1,8 +1,8 @@
+import {render} from '../framework/render.js';
 import SortView from '../view/sort-view.js';
 import EventsListView from '../view/events-list-view.js';
 import Point from '../view/point-view.js';
 import EditPoint from '../view/edit-point-view.js';
-import { render } from '../render.js';
 import { TYPE } from '../const.js';
 import ListEmptyView from '../view/list-empty-view.js';
 
@@ -41,40 +41,42 @@ export default class TripEventsPresenter {
   }
 
   #renderPoint(point) {
-    const pointComponent = new Point(point);
-    const editPointComponent = new EditPoint( {listOffers: this.#offers, listDestinations: this.#destinations, listType: TYPE, point: point}, this.#routeListComponent.element );
-
-    const replacePointToEditPoint = () => {
-      this.#routeListComponent.element.replaceChild(editPointComponent.element, pointComponent.element);
-    };
-    const replaceEditPointToPoint = () => {
-      this.#routeListComponent.element.replaceChild(pointComponent.element, editPointComponent.element);
-    };
-
     const escKeyDownHandler = (evt) => {
       if (evt.key === 'Escape' || evt.key === 'Esc') {
         evt.preventDefault();
-        replaceEditPointToPoint();
+        replaceEditPointToPoint.call(this);
         document.removeEventListener('keydown', escKeyDownHandler);
       }
     };
 
-    pointComponent.element.querySelector('.event__rollup-btn').addEventListener( 'click', () => {
-      replacePointToEditPoint();
-      document.addEventListener('keydown', escKeyDownHandler);
-    });
+    const pointComponent = new Point({
+      point,
+      onEditClick: () => {
+        replacePointToEditPoint.call(this);
+        document.addEventListener('keydown', escKeyDownHandler);
+      }});
+    const editPointComponent = new EditPoint( {
+      listOffers: this.#offers,
+      listDestinations: this.#destinations,
+      listType: TYPE,
+      point,
+      onFormSubmit: () => {
+        replaceEditPointToPoint.call(this);
+        document.removeEventListener('keydown', escKeyDownHandler);
+      },
+      onEditClick: () => {
+        replaceEditPointToPoint.call(this);
+        document.removeEventListener('keydown', escKeyDownHandler);
+      },
 
-    editPointComponent.element.querySelector('form').addEventListener('submit', (evt) => {
-      evt.preventDefault();
-      replaceEditPointToPoint();
-      document.removeEventListener('keydown', escKeyDownHandler);
-    });
+    } );
 
-    editPointComponent.element.querySelector('.event__rollup-btn').addEventListener('click', (evt) => {
-      evt.preventDefault();
-      replaceEditPointToPoint();
-      document.removeEventListener('keydown', escKeyDownHandler);
-    });
+    function replacePointToEditPoint() {
+      this.#routeListComponent.element.replaceChild(editPointComponent.element, pointComponent.element);
+    }
+    function replaceEditPointToPoint() {
+      this.#routeListComponent.element.replaceChild(pointComponent.element, editPointComponent.element);
+    }
     render( pointComponent, this.#routeListComponent.element );
   }
 

@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 import { getDateHumanize } from '../utils.js';
 import { TYPE } from '../const.js';
 import dayjs from 'dayjs';
@@ -127,27 +127,32 @@ function createEditPointTemplate({ listOffers, listDestinations, listType, point
   </li>
 `;}
 
-export default class EditPoint {
+export default class EditPoint extends AbstractView{
   #point = null;
-  #element = null;
+  #handleFormSubmit = null;
+  #handleEditClick = null;
 
   constructor(point) {
+    super();
     this.#point = point;
+    this.#handleFormSubmit = point.onFormSubmit;
+    this.#handleEditClick = point.onEditClick;
+    this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHandler);
   }
 
   get template() {
     return createEditPointTemplate(this.#point);
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
+  #formSubmitHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleFormSubmit();
+  };
 
-    return this.#element;
-  }
+  #editClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleEditClick();
+  };
 
-  removeElement() {
-    this.#element = null;
-  }
 }
