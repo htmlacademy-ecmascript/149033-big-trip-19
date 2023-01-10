@@ -59,7 +59,7 @@ export default class TripEventsPresenter {
       listOffers: this.#offers,
       listDestinations: this.#destinations,
       listType: TYPE,
-      point: point,
+      point,
       onFormSubmit: () => {
         replaceEditPointToPoint.call(this);
         document.removeEventListener('keydown', escKeyDownHandler);

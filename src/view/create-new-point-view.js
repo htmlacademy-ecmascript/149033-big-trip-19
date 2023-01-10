@@ -164,7 +164,7 @@ function createNewPointTemplate() {
   </form>
 `;}
 
-export default class CreateNewPoint extends AbstractView{
+export default class CreateNewPoint extends AbstractView {
 
   get template() {
     return createNewPointTemplate();
