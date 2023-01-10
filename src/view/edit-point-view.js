@@ -130,13 +130,15 @@ function createEditPointTemplate({ listOffers, listDestinations, listType, point
 export default class EditPoint extends AbstractView{
   #point = null;
   #handleFormSubmit = null;
+  #handleEditClick = null;
 
-  constructor(point, onFormSubmit) {
+  constructor(point) {
     super();
     this.#point = point;
-    this.#handleFormSubmit = onFormSubmit;
-    console.log(onFormSubmit);
+    this.#handleFormSubmit = point.onFormSubmit;
+    this.#handleEditClick = point.onEditClick;
     this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHandler);
   }
 
   get template() {
@@ -146,6 +148,11 @@ export default class EditPoint extends AbstractView{
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
     this.#handleFormSubmit();
+  };
+
+  #editClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleEditClick();
   };
 
 }
