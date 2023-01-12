@@ -4,10 +4,6 @@ const DATE_SERVICE_FORMAT = 'YYYY-MM-DD';
 const TIME_SERVICE_FORMAT = 'hh:mm';
 const DATE_FORMAT = 'DD MMM';
 const MINUTS_IN_HOUR = 60;
-const MIN_RANDOM_INT = 1;
-const MAX_RANDOM_INT = 20;
-
-const getRandomArrayElement = (items) => items[Math.floor(Math.random() * items.length)];
 
 const getDayMonth = (strDate) => strDate ? dayjs(strDate).format(DATE_FORMAT) : '';
 const getDateFromStr = (strDate) => strDate ? dayjs(strDate).format(DATE_SERVICE_FORMAT) : '';
@@ -26,8 +22,15 @@ const getDiffTime = (dateFrom, dateTo) => {
 const getDateLocale = (date) => dayjs(date).format('YYYY-MM-DDThh:mm');
 const getDateHumanize = (date) => dayjs(date).format('DD/MM/YY hh:mm');
 
-const getRandomInt = (max = MAX_RANDOM_INT, min = MIN_RANDOM_INT) => Math.floor(Math.random() * (Math.abs(max - min) + 1)) + min;
+function isFuturePoint(dueDate) {
+  return dueDate && dayjs().isBefore(dueDate, 'D');
+}
+function isPastPoint(dueDate) {
+  return dueDate && dayjs().isAfter(dueDate, 'D');
+}
 
-const getRandomBoolean = () => Math.floor(Math.random() * 2) === 0;
+function isPesentPoint(dueDateFrom, dueDateTo) {
+  return dueDateFrom && dueDateTo && ( dayjs(dueDateFrom).isSame(dayjs(), 'D') || isPastPoint(dueDateFrom) ) && ( dayjs(dueDateTo).isSame(dayjs(), 'D') || isFuturePoint(dueDateTo) );
+}
 
-export {getRandomArrayElement, getRandomInt, getRandomBoolean, getDateFromStr, getTimeFromStr, getDayMonth, getDiffTime, getDateLocale, getDateHumanize};
+export { getDateFromStr, getTimeFromStr, getDayMonth, getDiffTime, getDateLocale, getDateHumanize, isFuturePoint, isPesentPoint, isPastPoint};

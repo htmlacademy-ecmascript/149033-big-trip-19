@@ -6,7 +6,7 @@ const LIMIT_POINT = 20;
 export default class PointsModel {
   #points = Array.from({length: LIMIT_POINT}, getRandomPoint);
 
-  getPoints() {
+  get points() {
     return this.#points;
   }
 
