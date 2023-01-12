@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { getDateHumanize } from '../utils.js';
+import { getDateHumanize } from '../utils/point.js';
 import { TYPE } from '../const.js';
 import dayjs from 'dayjs';
 

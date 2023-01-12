@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { getDateFromStr, getTimeFromStr, getDayMonth, getDiffTime, getDateLocale } from '../utils.js';
+import { getDateFromStr, getTimeFromStr, getDayMonth, getDiffTime, getDateLocale } from '../utils/point.js';
 
 
 const createItemOfferTemplate = (offers) =>

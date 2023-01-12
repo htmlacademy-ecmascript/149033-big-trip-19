@@ -1,4 +1,4 @@
-import { getRandomArrayElement, getRandomInt } from '../utils.js';
+import { getRandomArrayElement, getRandomInt } from '../utils/common.js';
 
 const LIMIT_PICTURES_LENGTH = 20;
 const descriptionPictures = [
