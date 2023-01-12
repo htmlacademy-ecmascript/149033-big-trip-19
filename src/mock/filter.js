@@ -2,9 +2,9 @@ import {filter} from '../utils/filter.js';
 
 function generateFilter(points) {
   return Object.entries(filter).map(
-    ([filterName, filterTasks]) => ({
+    ([filterName, tasksFilterFn]) => ({
       name: filterName,
-      hasFilterPoint: Boolean(filterTasks(points)),
+      hasPoints: Boolean(tasksFilterFn(points)),
     }),
   );
 }
