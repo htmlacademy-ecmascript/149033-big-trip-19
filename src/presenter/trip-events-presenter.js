@@ -1,4 +1,4 @@
-import {render, replace} from '../framework/render.js';
+import {render, replace, RenderPosition} from '../framework/render.js';
 import SortView from '../view/sort-view.js';
 import EventsListView from '../view/events-list-view.js';
 import Point from '../view/point-view.js';
@@ -18,7 +18,8 @@ export default class TripEventsPresenter {
   #offers = null;
   #destinations = null;
   #points = [];
-  #listEmptyComponent = null;
+  #listEmptyComponent = new ListEmptyView();
+  #sortView = new SortView();
 
   constructor(tripEventsElement, pointsModel, offersModel, destinationsModel) {
     this.#tripEventsContainer = tripEventsElement;
@@ -28,16 +29,10 @@ export default class TripEventsPresenter {
   }
 
   init() {
-    this.#listEmptyComponent = new ListEmptyView();
     this.#offers = this.#offersModel.getOffers();
     this.#destinations = this.#destinationsModel.getDestinations();
     this.#points = [...this.#pointsModel.getPointsWithDestinations(this.#destinations, this.#offers)];
-    if( this.#points.length === 0 ){
-      render( this.#listEmptyComponent, this.#tripEventsContainer);
-    } else {
-      this.#renderEventsList();
-    }
-
+    this.#renderTrip();
   }
 
   #renderPoint(point) {
@@ -80,12 +75,27 @@ export default class TripEventsPresenter {
     render( pointComponent, this.#routeListComponent.element );
   }
 
+  #renderSort() {
+    render(this.#sortView, this.#tripEventsContainer);
+  }
+
   #renderEventsList() {
-    render(new SortView(), this.#tripEventsContainer);
     render(this.#routeListComponent, this.#tripEventsContainer);
     for (let i = 0; i < LIMIT_POINTS; i++) {
       this.#renderPoint(this.#points[i]);
     }
   }
 
+  #renderNoPoints() {
+    render( this.#listEmptyComponent, this.#tripEventsContainer, RenderPosition.AFTERBEGIN);
+  }
+
+  #renderTrip() {
+    if( this.#points.length === 0 ){
+      this.#renderNoPoints();
+      return;
+    }
+    this.#renderSort();
+    this.#renderEventsList();
+  }
 }
