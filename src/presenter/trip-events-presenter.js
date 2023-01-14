@@ -1,4 +1,4 @@
-import {render, RenderPosition} from '../framework/render.js';
+import {render, RenderPosition, remove} from '../framework/render.js';
 import SortView from '../view/sort-view.js';
 import EventsListView from '../view/events-list-view.js';
 import ListEmptyView from '../view/list-empty-view.js';
@@ -14,9 +14,11 @@ export default class TripEventsPresenter {
   #destinationsModel = null;
   #offers = null;
   #destinations = null;
-  #points = [];
   #listEmptyComponent = new ListEmptyView();
   #sortView = new SortView();
+
+  #points = [];
+  #pointPresenter = new Map();
 
   constructor(tripEventsElement, pointsModel, offersModel, destinationsModel) {
     this.#tripEventsContainer = tripEventsElement;
@@ -39,6 +41,7 @@ export default class TripEventsPresenter {
       destinations: this.#destinations,
     });
     pointPresenter.init(point);
+    this.#pointPresenter.set(point.id, pointPresenter);
   }
 
   #renderSort() {
@@ -50,6 +53,7 @@ export default class TripEventsPresenter {
     for (let i = 0; i < LIMIT_POINTS; i++) {
       this.#renderPoint(this.#points[i]);
     }
+    console.log( this.#pointPresenter);
   }
 
   #renderNoPoints() {
