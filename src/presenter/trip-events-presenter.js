@@ -1,11 +1,11 @@
 import {render, replace, RenderPosition} from '../framework/render.js';
 import SortView from '../view/sort-view.js';
 import EventsListView from '../view/events-list-view.js';
-import Point from '../view/point-view.js';
-import EditPoint from '../view/edit-point-view.js';
-import { TYPE } from '../const.js';
+// import Point from '../view/point-view.js';
+// import EditPoint from '../view/edit-point-view.js';
+// import { TYPE } from '../const.js';
 import ListEmptyView from '../view/list-empty-view.js';
-
+import PointPresenter from './point-presenter.js';
 
 const LIMIT_POINTS = 5;
 
@@ -36,43 +36,49 @@ export default class TripEventsPresenter {
   }
 
   #renderPoint(point) {
-    const escKeyDownHandler = (evt) => {
-      if (evt.key === 'Escape' || evt.key === 'Esc') {
-        evt.preventDefault();
-        replaceEditPointToPoint.call(this);
-        document.removeEventListener('keydown', escKeyDownHandler);
-      }
-    };
+    const pointPresenter = new PointPresenter({
+      pointListContainer: this.#routeListComponent.element,
+      offers: this.#offers,
+      destinations: this.#destinations,
+    });
+    pointPresenter.init(point);
+    // const escKeyDownHandler = (evt) => {
+    //   if (evt.key === 'Escape' || evt.key === 'Esc') {
+    //     evt.preventDefault();
+    //     replaceEditPointToPoint.call(this);
+    //     document.removeEventListener('keydown', escKeyDownHandler);
+    //   }
+    // };
 
-    const pointComponent = new Point({
-      point,
-      onEditClick: () => {
-        replacePointToEditPoint.call(this);
-        document.addEventListener('keydown', escKeyDownHandler);
-      }});
-    const editPointComponent = new EditPoint( {
-      listOffers: this.#offers,
-      listDestinations: this.#destinations,
-      listType: TYPE,
-      point,
-      onFormSubmit: () => {
-        replaceEditPointToPoint.call(this);
-        document.removeEventListener('keydown', escKeyDownHandler);
-      },
-      onEditClick: () => {
-        replaceEditPointToPoint.call(this);
-        document.removeEventListener('keydown', escKeyDownHandler);
-      },
+    // const pointComponent = new Point({
+    //   point,
+    //   onEditClick: () => {
+    //     replacePointToEditPoint.call(this);
+    //     document.addEventListener('keydown', escKeyDownHandler);
+    //   }});
+    // const editPointComponent = new EditPoint( {
+    //   listOffers: this.#offers,
+    //   listDestinations: this.#destinations,
+    //   listType: TYPE,
+    //   point,
+    //   onFormSubmit: () => {
+    //     replaceEditPointToPoint.call(this);
+    //     document.removeEventListener('keydown', escKeyDownHandler);
+    //   },
+    //   onEditClick: () => {
+    //     replaceEditPointToPoint.call(this);
+    //     document.removeEventListener('keydown', escKeyDownHandler);
+    //   },
 
-    } );
+    // } );
 
-    function replacePointToEditPoint() {
-      replace(editPointComponent, pointComponent);
-    }
-    function replaceEditPointToPoint() {
-      replace(pointComponent, editPointComponent);
-    }
-    render( pointComponent, this.#routeListComponent.element );
+    // function replacePointToEditPoint() {
+    //   replace(editPointComponent, pointComponent);
+    // }
+    // function replaceEditPointToPoint() {
+    //   replace(pointComponent, editPointComponent);
+    // }
+    // render( pointComponent, this.#routeListComponent.element );
   }
 
   #renderSort() {
