@@ -1,13 +1,14 @@
-import {render, RenderPosition, remove} from '../framework/render.js';
+import {render, RenderPosition} from '../framework/render.js';
 import SortView from '../view/sort-view.js';
 import EventsListView from '../view/events-list-view.js';
 import ListEmptyView from '../view/list-empty-view.js';
 import PointPresenter from './point-presenter.js';
+import {updateItem} from '../utils/common.js';
 
 const LIMIT_POINTS = 5;
 
 export default class TripEventsPresenter {
-  #routeListComponent = new EventsListView();
+  #eventsListComponent = new EventsListView();
   #tripEventsContainer = null;
   #pointsModel = null;
   #offersModel = null;
@@ -34,9 +35,20 @@ export default class TripEventsPresenter {
     this.#renderTrip();
   }
 
+  #handleModeChange = () => {
+    this.#pointPresenter.forEach((presenter) => presenter.resetView());
+  };
+
+  #handlePointChange = (updatedPoint) => {
+    this.#points = updateItem(this.#points, updatedPoint);
+    this.#pointPresenter.get(updatedPoint.id).init(updatedPoint);
+  };
+
   #renderPoint(point) {
     const pointPresenter = new PointPresenter({
-      pointListContainer: this.#routeListComponent.element,
+      pointListContainer: this.#eventsListComponent.element,
+      onDataChange: this.#handlePointChange,
+      onModeChange: this.#handleModeChange,
       offers: this.#offers,
       destinations: this.#destinations,
     });
@@ -49,11 +61,10 @@ export default class TripEventsPresenter {
   }
 
   #renderEventsList() {
-    render(this.#routeListComponent, this.#tripEventsContainer);
+    render(this.#eventsListComponent, this.#tripEventsContainer);
     for (let i = 0; i < LIMIT_POINTS; i++) {
       this.#renderPoint(this.#points[i]);
     }
-    console.log( this.#pointPresenter);
   }
 
   #renderNoPoints() {

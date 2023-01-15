@@ -61,7 +61,6 @@ const pointDefault = {
 const getOffersByType = (typeCurrent, offers) => offers.find((item) => item.type === typeCurrent).offers;
 
 function createEditPointTemplate({ listOffers, listDestinations, listType, point = pointDefault }) {
-
   const { basePrice, dateFrom, dateTo, destination, offers, type } = point;
 
   return `
@@ -129,25 +128,27 @@ function createEditPointTemplate({ listOffers, listDestinations, listType, point
 
 export default class EditPoint extends AbstractView{
   #point = null;
+  #pointObject = null;
   #handleFormSubmit = null;
   #handleEditClick = null;
 
-  constructor(point) {
+  constructor(pointObject) {
     super();
-    this.#point = point;
-    this.#handleFormSubmit = point.onFormSubmit;
-    this.#handleEditClick = point.onEditClick;
+    this.#pointObject = pointObject;
+    this.#point = pointObject.point;
+    this.#handleFormSubmit = pointObject.onFormSubmit;
+    this.#handleEditClick = pointObject.onEditClick;
     this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHandler);
   }
 
   get template() {
-    return createEditPointTemplate(this.#point);
+    return createEditPointTemplate(this.#pointObject);
   }
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
-    this.#handleFormSubmit();
+    this.#handleFormSubmit(this.#point);
   };
 
   #editClickHandler = (evt) => {
