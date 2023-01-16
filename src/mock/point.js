@@ -1,3 +1,4 @@
+import {nanoid} from 'nanoid';
 import { getRandomArrayElement, getRandomInt, getRandomBoolean } from '../utils/common.js';
 
 const LIMIT_PRICE = 3000;
@@ -87,7 +88,10 @@ const mockPoints = [
 
 ];
 
-const getRandomPoint = () => getRandomArrayElement(mockPoints);
+const getRandomPoint = () => ({
+  id: nanoid(),
+  ...getRandomArrayElement(mockPoints),
+});
 
 const getMockPoints = () => mockPoints;
 
