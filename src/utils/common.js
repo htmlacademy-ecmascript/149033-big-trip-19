@@ -8,4 +8,6 @@ const getRandomInt = (max = MAX_RANDOM_INT, min = MIN_RANDOM_INT) => Math.floor(
 
 const getRandomBoolean = () => Math.floor(Math.random() * 2) === 0;
 
-export {getRandomArrayElement, getRandomInt, getRandomBoolean};
+const updateItem = (items, update) => items.map((item) => item.id === update.id ? update : item);
+
+export {getRandomArrayElement, getRandomInt, getRandomBoolean, updateItem};

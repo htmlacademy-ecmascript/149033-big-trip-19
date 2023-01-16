@@ -60,10 +60,8 @@ const pointDefault = {
 };
 const getOffersByType = (typeCurrent, offers) => offers.find((item) => item.type === typeCurrent).offers;
 
-function createEditPointTemplate({ listOffers, listDestinations, listType, point = pointDefault }) {
-
+function createEditPointTemplate( listOffers, listDestinations, listType, point = pointDefault ) {
   const { basePrice, dateFrom, dateTo, destination, offers, type } = point;
-
   return `
   <li class="trip-events__item">
     <form class="event event--edit" action="#" method="post">
@@ -129,25 +127,36 @@ function createEditPointTemplate({ listOffers, listDestinations, listType, point
 
 export default class EditPoint extends AbstractView{
   #point = null;
+
   #handleFormSubmit = null;
   #handleEditClick = null;
 
-  constructor(point) {
+  #listOffers = null;
+  #listDestinations = null;
+  #listType = null;
+
+  constructor({ listOffers, listDestinations, listType, point, onFormSubmit, onEditClick }) {
     super();
     this.#point = point;
-    this.#handleFormSubmit = point.onFormSubmit;
-    this.#handleEditClick = point.onEditClick;
+
+    this.#listOffers = listOffers;
+    this.#listDestinations = listDestinations;
+    this.#listType = listType;
+
+    this.#handleFormSubmit = onFormSubmit;
+    this.#handleEditClick = onEditClick;
+
     this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHandler);
   }
 
   get template() {
-    return createEditPointTemplate(this.#point);
+    return createEditPointTemplate(this.#listOffers, this.#listDestinations, this.#listType, this.#point);
   }
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
-    this.#handleFormSubmit();
+    this.#handleFormSubmit(this.#point);
   };
 
   #editClickHandler = (evt) => {
