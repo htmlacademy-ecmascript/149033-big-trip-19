@@ -7,10 +7,9 @@ const FilterType = {
 };
 
 const SortType = {
-  DEFAULT: 'day',
+  DAY: 'day',
   TIME: 'event',
   PRICE: 'price',
-
 };
 
 export { TYPE, FilterType, SortType };

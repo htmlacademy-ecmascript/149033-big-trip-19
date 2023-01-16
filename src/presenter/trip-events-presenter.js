@@ -4,6 +4,8 @@ import EventsListView from '../view/events-list-view.js';
 import ListEmptyView from '../view/list-empty-view.js';
 import PointPresenter from './point-presenter.js';
 import {updateItem} from '../utils/common.js';
+import { sortPointDownPrice, sortPointDownTime, sortPointUp} from '../utils/point.js';
+import {SortType} from '../const.js';
 
 const LIMIT_POINTS = 5;
 
@@ -20,6 +22,8 @@ export default class TripEventsPresenter {
 
   #points = [];
   #pointPresenter = new Map();
+  #currentSortType = SortType.DAY;
+  #sourcedPoints = [];
 
   constructor(tripEventsElement, pointsModel, offersModel, destinationsModel) {
     this.#tripEventsContainer = tripEventsElement;
@@ -32,6 +36,8 @@ export default class TripEventsPresenter {
     this.#offers = this.#offersModel.getOffers();
     this.#destinations = this.#destinationsModel.getDestinations();
     this.#points = [...this.#pointsModel.getPointsWithDestinations(this.#destinations, this.#offers)];
+    this.#sourcedPoints = [...this.#pointsModel.getPointsWithDestinations(this.#destinations, this.#offers)];
+    this.#points.sort(sortPointUp);
     this.#renderTrip();
   }
 
@@ -41,6 +47,7 @@ export default class TripEventsPresenter {
 
   #handlePointChange = (updatedPoint) => {
     this.#points = updateItem(this.#points, updatedPoint);
+    this.#sourcedPoints = updateItem(this.#sourcedPoints, updatedPoint);
     this.#pointPresenter.get(updatedPoint.id).init(updatedPoint);
   };
 
@@ -56,11 +63,32 @@ export default class TripEventsPresenter {
     this.#pointPresenter.set(point.id, pointPresenter);
   }
 
+  #sortPoints(sortType) {
+    switch (sortType) {
+      case SortType.DAY:
+        this.#points.sort(sortPointUp);
+        break;
+      case SortType.PRICE:
+        this.#points.sort(sortPointDownPrice);
+        break;
+      case SortType.TIME:
+        this.#points.sort(sortPointDownTime);
+        break;
+      default:
+        this.#points = [...this.#sourcedPoints];
+    }
+
+    this.#currentSortType = sortType;
+  }
+
   #handleSortTypeChange = (sortType) => {
-    console.log(sortType);
-    // - Сортируем задачи
-    // - Очищаем список
-    // - Рендерим список заново
+    if (this.#currentSortType === sortType) {
+      return;
+    }
+
+    this.#sortPoints(sortType);
+    this.#clearTaskList();
+    this.#renderEventsList();
   };
 
   #renderSort() {
@@ -68,6 +96,11 @@ export default class TripEventsPresenter {
       onSortTypeChange: this.#handleSortTypeChange,
     });
     render(this.#sortComponent, this.#tripEventsContainer);
+  }
+
+  #clearTaskList() {
+    this.#pointPresenter.forEach((presenter) => presenter.destroy());
+    this.#pointPresenter.clear();
   }
 
   #renderEventsList() {
