@@ -16,7 +16,7 @@ export default class TripEventsPresenter {
   #offers = null;
   #destinations = null;
   #listEmptyComponent = new ListEmptyView();
-  #sortView = new SortView();
+  #sortComponent = null;
 
   #points = [];
   #pointPresenter = new Map();
@@ -56,8 +56,18 @@ export default class TripEventsPresenter {
     this.#pointPresenter.set(point.id, pointPresenter);
   }
 
+  #handleSortTypeChange = (sortType) => {
+    console.log(sortType);
+    // - Сортируем задачи
+    // - Очищаем список
+    // - Рендерим список заново
+  };
+
   #renderSort() {
-    render(this.#sortView, this.#tripEventsContainer);
+    this.#sortComponent = new SortView({
+      onSortTypeChange: this.#handleSortTypeChange,
+    });
+    render(this.#sortComponent, this.#tripEventsContainer);
   }
 
   #renderEventsList() {
