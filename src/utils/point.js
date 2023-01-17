@@ -33,4 +33,34 @@ function isPesentPoint(dueDateFrom, dueDateTo) {
   return dueDateFrom && dueDateTo && ( dayjs(dueDateFrom).isSame(dayjs(), 'D') || isPastPoint(dueDateFrom) ) && ( dayjs(dueDateTo).isSame(dayjs(), 'D') || isFuturePoint(dueDateTo) );
 }
 
-export { getDateFromStr, getTimeFromStr, getDayMonth, getDiffTime, getDateLocale, getDateHumanize, isFuturePoint, isPesentPoint, isPastPoint};
+function getWeightForNullDate(dateA, dateB) {
+  if (dateA === null && dateB === null) {
+    return 0;
+  }
+
+  if (dateA === null) {
+    return 1;
+  }
+
+  if (dateB === null) {
+    return -1;
+  }
+
+  return null;
+}
+
+function sortPointUp(pointA, pointB) {
+  const weight = getWeightForNullDate(pointA.dateFrom, pointB.dateFrom);
+
+  return weight ?? dayjs(pointA.dateFrom).diff(dayjs(pointB.dateFrom));
+}
+
+function sortPointDownPrice(pointA, pointB) {
+  return pointB.basePrice - pointA.basePrice;
+}
+
+function sortPointDownTime(pointA, pointB) {
+  return dayjs(pointB.dateTo).diff(dayjs(pointB.dateFrom)) - dayjs(pointA.dateTo).diff(dayjs(pointA.dateFrom));
+}
+
+export { getDateFromStr, getTimeFromStr, getDayMonth, getDiffTime, getDateLocale, getDateHumanize, isFuturePoint, isPesentPoint, isPastPoint, sortPointUp, sortPointDownPrice, sortPointDownTime};
