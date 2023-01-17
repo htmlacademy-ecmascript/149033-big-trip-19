@@ -103,6 +103,7 @@ export default class TripEventsPresenter {
   #clearTaskList() {
     this.#pointPresenter.forEach((presenter) => presenter.destroy());
     this.#pointPresenter.clear();
+  }
 
   #renderEventsList() {
     render(this.#eventsListComponent, this.#tripEventsContainer);
