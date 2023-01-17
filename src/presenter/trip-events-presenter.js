@@ -25,6 +25,7 @@ export default class TripEventsPresenter {
   #currentSortType = SortType.DAY;
   #sourcedPoints = [];
 
+
   constructor(tripEventsElement, pointsModel, offersModel, destinationsModel) {
     this.#tripEventsContainer = tripEventsElement;
     this.#pointsModel = pointsModel;
@@ -102,7 +103,6 @@ export default class TripEventsPresenter {
   #clearTaskList() {
     this.#pointPresenter.forEach((presenter) => presenter.destroy());
     this.#pointPresenter.clear();
-  }
 
   #renderEventsList() {
     render(this.#eventsListComponent, this.#tripEventsContainer);
