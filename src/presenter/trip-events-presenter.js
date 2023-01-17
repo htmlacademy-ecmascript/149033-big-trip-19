@@ -36,7 +36,7 @@ export default class TripEventsPresenter {
     this.#offers = this.#offersModel.getOffers();
     this.#destinations = this.#destinationsModel.getDestinations();
     this.#points = [...this.#pointsModel.getPointsWithDestinations(this.#destinations, this.#offers)];
-    this.#sourcedPoints = [...this.#pointsModel.getPointsWithDestinations(this.#destinations, this.#offers)];
+    this.#sourcedPoints = [...this.#points];
     this.#points.sort(sortPointUp);
     this.#renderTrip();
   }
