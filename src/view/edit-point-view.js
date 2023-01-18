@@ -144,7 +144,6 @@ export default class EditPoint extends AbstractStatefulView{
     this.#listType = listType;
 
     this._setState(EditPoint.parsePointToState(point));
-    console.log(this._state);
     this.#handleFormSubmit = onFormSubmit;
     this.#handleEditClick = onEditClick;
     this._restoreHandlers();
