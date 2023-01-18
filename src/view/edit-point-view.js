@@ -144,7 +144,7 @@ export default class EditPoint extends AbstractStatefulView{
     this.#listType = listType;
 
     this._setState(EditPoint.parsePointToState(point));
-
+    console.log(this._state);
     this.#handleFormSubmit = onFormSubmit;
     this.#handleEditClick = onEditClick;
     this._restoreHandlers();
@@ -156,7 +156,7 @@ export default class EditPoint extends AbstractStatefulView{
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
-    this.#handleFormSubmit(this.#point);
+    this.#handleFormSubmit(EditPoint.parseStateToPoint(this._state));
   };
 
   #editClickHandler = (evt) => {
@@ -167,11 +167,18 @@ export default class EditPoint extends AbstractStatefulView{
   _restoreHandlers() {
     this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHandler);
+    this.element.querySelector('.event__type-group').addEventListener('change', this.#typeChangeHandler);
   }
 
+  #typeChangeHandler = (evt) => {
+    evt.preventDefault();
+    this.updateElement({
+      type: evt.target.value,
+    });
+  };
+
   static parsePointToState(point) {
-    return {...point,
-    };
+    return {...point};
   }
 
   static parseStateToPoint(state) {
