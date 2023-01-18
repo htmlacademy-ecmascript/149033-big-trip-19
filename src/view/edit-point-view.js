@@ -12,7 +12,7 @@ const createTypesTemplate = (listType) => listType.map((item) =>
 
 const createDestinationListTemplate = (listDestinations) =>
   `<datalist id="destination-list-1">
-  ${listDestinations.map((item) => `<option value="Amsterdam">${item.name}</option>`).join('')}
+  ${listDestinations.map((item) => `<option value="${item.name}">${item.name}</option>`).join('')}
   </datalist>`;
 
 const getLastWord = (str) => str.trim().split(' ').slice(-1);
@@ -168,12 +168,20 @@ export default class EditPoint extends AbstractStatefulView{
     this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHandler);
     this.element.querySelector('.event__type-group').addEventListener('change', this.#typeChangeHandler);
+    this.element.querySelector('.event__input--destination').addEventListener('change', this.#destinationChangeHandler);
   }
 
   #typeChangeHandler = (evt) => {
     evt.preventDefault();
     this.updateElement({
       type: evt.target.value,
+    });
+  };
+
+  #destinationChangeHandler = (evt) => {
+    evt.preventDefault();
+    this.updateElement({
+      destination: evt.target.value,
     });
   };
 
