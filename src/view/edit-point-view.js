@@ -1,4 +1,4 @@
-import AbstractView from '../framework/view/abstract-view.js';
+import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { getDateHumanize } from '../utils/point.js';
 import { TYPE } from '../const.js';
 import dayjs from 'dayjs';
@@ -125,7 +125,7 @@ function createEditPointTemplate( listOffers, listDestinations, listType, point 
   </li>
 `;}
 
-export default class EditPoint extends AbstractView{
+export default class EditPoint extends AbstractStatefulView{
   #point = null;
 
   #handleFormSubmit = null;
@@ -143,15 +143,15 @@ export default class EditPoint extends AbstractView{
     this.#listDestinations = listDestinations;
     this.#listType = listType;
 
+    this._setState(EditPoint.parsePointToState(point));
+
     this.#handleFormSubmit = onFormSubmit;
     this.#handleEditClick = onEditClick;
-
-    this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
-    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHandler);
+    this._restoreHandlers();
   }
 
   get template() {
-    return createEditPointTemplate(this.#listOffers, this.#listDestinations, this.#listType, this.#point);
+    return createEditPointTemplate(this.#listOffers, this.#listDestinations, this.#listType, this._state);
   }
 
   #formSubmitHandler = (evt) => {
@@ -164,4 +164,19 @@ export default class EditPoint extends AbstractView{
     this.#handleEditClick();
   };
 
+  _restoreHandlers() {
+    this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHandler);
+  }
+
+  static parsePointToState(point) {
+    return {...point,
+    };
+  }
+
+  static parseStateToPoint(state) {
+    const point = {...state};
+
+    return point;
+  }
 }
