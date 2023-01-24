@@ -134,12 +134,13 @@ export default class EditPoint extends AbstractStatefulView{
 
   #handleFormSubmit = null;
   #handleEditClick = null;
+  #handleDeleteClick = null;
 
   #listOffers = null;
   #listDestinations = null;
   #listType = null;
 
-  constructor({ listOffers, listDestinations, listType, point, onFormSubmit, onEditClick }) {
+  constructor({ listOffers, listDestinations, listType, point, onFormSubmit, onEditClick, onDeleteClick}) {
     super();
     this.#point = point;
 
@@ -150,6 +151,7 @@ export default class EditPoint extends AbstractStatefulView{
     this._setState(EditPoint.parsePointToState(point));
     this.#handleFormSubmit = onFormSubmit;
     this.#handleEditClick = onEditClick;
+    this.#handleDeleteClick = onDeleteClick;
     this._restoreHandlers();
   }
 
@@ -191,6 +193,8 @@ export default class EditPoint extends AbstractStatefulView{
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHandler);
     this.element.querySelector('.event__type-group').addEventListener('change', this.#typeChangeHandler);
     this.element.querySelector('.event__input--destination').addEventListener('change', this.#destinationChangeHandler);
+    this.element.querySelector('.event__input--price').addEventListener('change', this.#priceChangeHandler);
+    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#formDeleteClickHandler);
     this.#setDatepicker();
   }
 
@@ -216,7 +220,14 @@ export default class EditPoint extends AbstractStatefulView{
 
   #dueDateToChangeHandler = ([userDate]) => {
     this.updateElement({
-      dateTo: userDate,
+      dateTo: userDate.toISOString(),
+    });
+  };
+
+  #priceChangeHandler = (evt) => {
+    evt.preventDefault();
+    this.updateElement({
+      basePrice: Number(evt.target.value),
     });
   };
 
@@ -246,6 +257,11 @@ export default class EditPoint extends AbstractStatefulView{
       );
     }
   }
+
+  #formDeleteClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleDeleteClick(EditPoint.parseStateToPoint(this._state));
+  };
 
   static parsePointToState(point) {
     return {...point};

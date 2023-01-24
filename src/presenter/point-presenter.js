@@ -47,7 +47,7 @@ export default class PointPresenter {
       point: this.#point,
       onFormSubmit: this.#handleFormSubmit,
       onEditClick: this.#handleEditPointClick,
-
+      onDeleteClick: this.#handleDeleteClick,
     } );
 
     if (prevPointComponent === null || prevPointEditComponent === null) {
@@ -105,14 +105,27 @@ export default class PointPresenter {
     );
   };
 
-  #handleFormSubmit = (point) => {
+  #handleFormSubmit = (update) => {
     //this.#handleDataChange(point);
+    const isMinorUpdate =
+      this.#point.dateFrom !== update.dateFrom ||
+      this.#point.dateTo !== update.dateTo ||
+      this.#point.basePrice !== update.basePrice;
+
     this.#handleDataChange(
       UserAction.UPDATE_POINT,
+      isMinorUpdate ? UpdateType.MINOR : UpdateType.PATCH,
+      update,
+    );
+    this.#replaceEditPointToPoint();
+  };
+
+  #handleDeleteClick = (point) => {
+    this.#handleDataChange(
+      UserAction.DELETE_POINT,
       UpdateType.MINOR,
       point,
     );
-    this.#replaceEditPointToPoint();
   };
 
   #handleEditPointClick = () => {
