@@ -73,7 +73,7 @@ export default class TripEventsPresenter {
   //};
 
   #handleViewAction = (actionType, updateType, update) => {
-    console.log(actionType, updateType, update);
+    //console.log(actionType, updateType, update);
 
     // Здесь будем вызывать обновление модели.
     // actionType - действие пользователя, нужно чтобы понять, какой метод модели вызвать
@@ -93,7 +93,7 @@ export default class TripEventsPresenter {
   };
 
   #handleModelEvent = (updateType, data) => {
-    console.log(updateType, data);
+    //console.log(updateType, data);
     // В зависимости от типа изменений решаем, что делать:
     switch (updateType) {
       case UpdateType.PATCH:

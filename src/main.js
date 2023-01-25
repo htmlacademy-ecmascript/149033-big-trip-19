@@ -6,13 +6,13 @@ import OffersModel from './model/offers-model.js';
 import DestinationsModel from './model/destinations-model.js';
 import PointsModel from './model/points-model.js';
 import FilterModel from './model/filter-model.js';
-import { generateFilter } from './mock/filter.js';
-const filters = [
-  {type: 'everything', name: 'EVERYTHING', hasPoints: 1,},
-  {type: 'future', name: 'FUTURE',hasPoints: 0, },
-  {type: 'present', name: 'PRESENT', hasPoints: 0, },
-  { type: 'past', name: 'PAST', hasPoints: 1}
-];
+//import { generateFilter } from './mock/filter.js';
+// const filters = [
+//   {type: 'everything', name: 'EVERYTHING', hasPoints: 1,},
+//   {type: 'future', name: 'FUTURE',hasPoints: 0, },
+//   {type: 'present', name: 'PRESENT', hasPoints: 0, },
+//   { type: 'past', name: 'PAST', hasPoints: 1}
+// ];
 const bodyElement = document.querySelector('.page-body');
 const filterElement = bodyElement.querySelector('.trip-controls__filters');
 const tripEventsElement = bodyElement.querySelector('.trip-events');
