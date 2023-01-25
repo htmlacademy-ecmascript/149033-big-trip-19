@@ -46,12 +46,12 @@ const showSectionDestination = (destination ) =>
                             ${createPhotosContainerTemplate(destination)}
                           </section>` : '';
 const getDestinationByName = (nameCurrent, destinations) => destinations.find( (item) => item.name === nameCurrent);
-const currentDate = dayjs();
+const currentDate = dayjs().toISOString();
 const pointDefault = {
   basePrice: 0,
   dateFrom: currentDate,
   dateTo: currentDate,
-  destination: '',
+  destination: 'Lyon',
   isFavorite: false,
   offers:  [{
     id: null,
@@ -62,7 +62,7 @@ const pointDefault = {
 };
 const getOffersByType = (typeCurrent, offers) => offers.find((item) => item.type === typeCurrent).offers;
 
-function createEditPointTemplate( listOffers, listDestinations, listType, point = pointDefault ) {
+function createEditPointTemplate( listOffers, listDestinations, listType, point) {
   const { basePrice, dateFrom, dateTo, destination, offers, type } = point;
   return `
   <li class="trip-events__item">
@@ -140,10 +140,9 @@ export default class EditPoint extends AbstractStatefulView{
   #listDestinations = null;
   #listType = null;
 
-  constructor({ listOffers, listDestinations, listType, point, onFormSubmit, onEditClick, onDeleteClick}) {
+  constructor({ listOffers, listDestinations, listType, point = pointDefault , onFormSubmit, onEditClick, onDeleteClick}) {
     super();
     this.#point = point;
-
     this.#listOffers = listOffers;
     this.#listDestinations = listDestinations;
     this.#listType = listType;
