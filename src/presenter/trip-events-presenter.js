@@ -26,7 +26,7 @@ export default class TripEventsPresenter {
 
   #filterType = FilterType.EVERYTHING;
 
-  constructor(tripEventsElement, pointsModel, offersModel, destinationsModel, filterModel, onNewPointDestroy) {
+  constructor({tripEventsElement, pointsModel, offersModel, destinationsModel, filterModel, onNewPointDestroy}) {
     this.#tripEventsContainer = tripEventsElement;
     this.#pointsModel = pointsModel;
     this.#offersModel = offersModel;

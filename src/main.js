@@ -13,7 +13,8 @@ const offersModel = new OffersModel();
 const destinationsModel = new DestinationsModel();
 const pointsModel = new PointsModel();
 const filterModel = new FilterModel();
-const boardTripsPresenter = new TripEventsPresenter(tripEventsElement, pointsModel, offersModel, destinationsModel, filterModel, onNewPointDestroy);
+const pointsObject = {tripEventsElement, pointsModel, offersModel, destinationsModel, filterModel, onNewPointDestroy};
+const boardTripsPresenter = new TripEventsPresenter(pointsObject);
 
 const filterPresenter = new FilterPresenter({
   filterContainer: filterElement,
