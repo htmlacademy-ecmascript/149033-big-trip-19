@@ -1,3 +1,4 @@
+import he from 'he';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { getDateHumanize } from '../utils/point.js';
 import { TYPE } from '../const.js';
@@ -204,11 +205,18 @@ export default class EditPoint extends AbstractStatefulView{
     });
   };
 
+  #isNameInDestination = (str) => {
+    const name = he.encode(str);
+    return name;
+  };
+
   #destinationChangeHandler = (evt) => {
     evt.preventDefault();
-    this.updateElement({
-      destination: evt.target.value,
-    });
+    if (this.#listDestinations.find( (item) => item.name === he.encode(evt.target.value) )) {
+      this.updateElement({
+        destination: evt.target.value,
+      });
+    }
   };
 
   #dueDateFromChangeHandler = ([userDate]) => {
@@ -225,9 +233,11 @@ export default class EditPoint extends AbstractStatefulView{
 
   #priceChangeHandler = (evt) => {
     evt.preventDefault();
-    this.updateElement({
-      basePrice: Number(evt.target.value),
-    });
+    if( Number(he.encode(evt.target.value)) ) {
+      this.updateElement({
+        basePrice: evt.target.value,
+      });
+    }
   };
 
   #setDatepicker() {
