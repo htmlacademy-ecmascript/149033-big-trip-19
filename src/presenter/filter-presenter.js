@@ -47,11 +47,10 @@ export default class FilterPresenter {
   }
 
   init() {
-    const filters = this.filters;
     const prevFilterComponent = this.#filterComponent;
 
     this.#filterComponent = new FilterView({
-      filters,
+      filters: this.filters,
       currentFilterType: this.#filterModel.filter,
       onFilterTypeChange: this.#handleFilterTypeChange
     });
