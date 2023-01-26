@@ -205,11 +205,6 @@ export default class EditPoint extends AbstractStatefulView{
     });
   };
 
-  #isNameInDestination = (str) => {
-    const name = he.encode(str);
-    return name;
-  };
-
   #destinationChangeHandler = (evt) => {
     evt.preventDefault();
     if (this.#listDestinations.find( (item) => item.name === he.encode(evt.target.value) )) {
