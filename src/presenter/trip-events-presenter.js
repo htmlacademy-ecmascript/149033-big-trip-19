@@ -41,6 +41,7 @@ export default class TripEventsPresenter {
     });
 
     this.#pointsModel.addObserver(this.#handleModelEvent);
+    this.#filterModel.addObserver(this.#handleModelEvent);
   }
 
   get points() {
