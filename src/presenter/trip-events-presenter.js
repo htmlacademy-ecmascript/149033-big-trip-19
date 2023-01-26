@@ -172,8 +172,7 @@ export default class TripEventsPresenter {
   }
 
   #renderTrip() {
-    const pointCount = this.points.length;
-    if( pointCount === 0 ){
+    if( this.points.length === 0 ){
       this.#renderNoPoints();
       return;
     }
