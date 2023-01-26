@@ -1,4 +1,4 @@
-import {replace, render, remove} from '../framework/render.js';
+import { replace, render, remove } from '../framework/render.js';
 import Point from '../view/point-view.js';
 import EditPoint from '../view/edit-point-view.js';
 import { TYPE, UserAction, UpdateType } from '../const.js';
@@ -20,7 +20,13 @@ export default class PointPresenter {
   #handleDataChange = null;
   #mode = Mode.DEFAULT;
 
-  constructor({pointListContainer, onDataChange, onModeChange, offers, destinations}) {
+  constructor({
+    pointListContainer,
+    onDataChange,
+    onModeChange,
+    offers,
+    destinations,
+  }) {
     this.#offers = offers;
     this.#destinations = destinations;
     this.#pointListContainer = pointListContainer;
@@ -40,7 +46,7 @@ export default class PointPresenter {
       onFavoriteClick: this.#handleFavoriteClick,
     });
 
-    this.#pointEditComponent = new EditPoint( {
+    this.#pointEditComponent = new EditPoint({
       listOffers: this.#offers,
       listDestinations: this.#destinations,
       listType: TYPE,
@@ -48,7 +54,7 @@ export default class PointPresenter {
       onFormSubmit: this.#handleFormSubmit,
       onEditClick: this.#handleEditPointClick,
       onDeleteClick: this.#handleDeleteClick,
-    } );
+    });
 
     if (prevPointComponent === null || prevPointEditComponent === null) {
       render(this.#pointComponent, this.#pointListContainer);
@@ -97,16 +103,13 @@ export default class PointPresenter {
   };
 
   #handleFavoriteClick = () => {
-    //this.#handleDataChange({...this.#point, isFavorite: !this.#point.isFavorite});
-    this.#handleDataChange(
-      UserAction.UPDATE_POINT,
-      UpdateType.MINOR,
-      {...this.#point, isFavorite: !this.#point.isFavorite},
-    );
+    this.#handleDataChange(UserAction.UPDATE_POINT, UpdateType.MINOR, {
+      ...this.#point,
+      isFavorite: !this.#point.isFavorite,
+    });
   };
 
   #handleFormSubmit = (update) => {
-    //this.#handleDataChange(point);
     const isMinorUpdate =
       this.#point.dateFrom !== update.dateFrom ||
       this.#point.dateTo !== update.dateTo ||
@@ -115,17 +118,13 @@ export default class PointPresenter {
     this.#handleDataChange(
       UserAction.UPDATE_POINT,
       isMinorUpdate ? UpdateType.MINOR : UpdateType.PATCH,
-      update,
+      update
     );
     this.#replaceEditPointToPoint();
   };
 
   #handleDeleteClick = (point) => {
-    this.#handleDataChange(
-      UserAction.DELETE_POINT,
-      UpdateType.MINOR,
-      point,
-    );
+    this.#handleDataChange(UserAction.DELETE_POINT, UpdateType.MINOR, point);
   };
 
   #handleEditPointClick = () => {

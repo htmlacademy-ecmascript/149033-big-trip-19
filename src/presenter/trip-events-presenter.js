@@ -33,8 +33,8 @@ export default class TripEventsPresenter {
     this.#destinationsModel = destinationsModel;
     this.#filterModel = filterModel;
     this.#newPointPresenter = new NewPointPresenter({
-      offers: this.#offersModel.getOffers(),
-      destinations: this.#destinationsModel.getDestinations(),
+      offers: this.#offersModel.offers,
+      destinations: this.#destinationsModel.destinations,
       pointListContainer: this.#eventsListComponent.element,
       onDataChange: this.#handleViewAction,
       onDestroy: onNewPointDestroy
@@ -60,8 +60,8 @@ export default class TripEventsPresenter {
   }
 
   init() {
-    this.#offers = this.#offersModel.getOffers();
-    this.#destinations = this.#destinationsModel.getDestinations();
+    this.#offers = this.#offersModel.offers;
+    this.#destinations = this.#destinationsModel.destinations;
     this.#renderTrip();
   }
 
