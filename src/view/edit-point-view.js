@@ -1,3 +1,4 @@
+import he from 'he';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { getDateHumanize } from '../utils/point.js';
 import { TYPE } from '../const.js';
@@ -46,12 +47,12 @@ const showSectionDestination = (destination ) =>
                             ${createPhotosContainerTemplate(destination)}
                           </section>` : '';
 const getDestinationByName = (nameCurrent, destinations) => destinations.find( (item) => item.name === nameCurrent);
-const currentDate = dayjs();
+const currentDate = dayjs().toISOString();
 const pointDefault = {
   basePrice: 0,
   dateFrom: currentDate,
   dateTo: currentDate,
-  destination: '',
+  destination: 'Lyon',
   isFavorite: false,
   offers:  [{
     id: null,
@@ -62,7 +63,7 @@ const pointDefault = {
 };
 const getOffersByType = (typeCurrent, offers) => offers.find((item) => item.type === typeCurrent).offers;
 
-function createEditPointTemplate( listOffers, listDestinations, listType, point = pointDefault ) {
+function createEditPointTemplate( listOffers, listDestinations, listType, point) {
   const { basePrice, dateFrom, dateTo, destination, offers, type } = point;
   return `
   <li class="trip-events__item">
@@ -134,15 +135,15 @@ export default class EditPoint extends AbstractStatefulView{
 
   #handleFormSubmit = null;
   #handleEditClick = null;
+  #handleDeleteClick = null;
 
   #listOffers = null;
   #listDestinations = null;
   #listType = null;
 
-  constructor({ listOffers, listDestinations, listType, point, onFormSubmit, onEditClick }) {
+  constructor({ listOffers, listDestinations, listType, point = pointDefault , onFormSubmit, onEditClick, onDeleteClick}) {
     super();
     this.#point = point;
-
     this.#listOffers = listOffers;
     this.#listDestinations = listDestinations;
     this.#listType = listType;
@@ -150,6 +151,7 @@ export default class EditPoint extends AbstractStatefulView{
     this._setState(EditPoint.parsePointToState(point));
     this.#handleFormSubmit = onFormSubmit;
     this.#handleEditClick = onEditClick;
+    this.#handleDeleteClick = onDeleteClick;
     this._restoreHandlers();
   }
 
@@ -191,6 +193,8 @@ export default class EditPoint extends AbstractStatefulView{
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHandler);
     this.element.querySelector('.event__type-group').addEventListener('change', this.#typeChangeHandler);
     this.element.querySelector('.event__input--destination').addEventListener('change', this.#destinationChangeHandler);
+    this.element.querySelector('.event__input--price').addEventListener('change', this.#priceChangeHandler);
+    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#formDeleteClickHandler);
     this.#setDatepicker();
   }
 
@@ -203,9 +207,11 @@ export default class EditPoint extends AbstractStatefulView{
 
   #destinationChangeHandler = (evt) => {
     evt.preventDefault();
-    this.updateElement({
-      destination: evt.target.value,
-    });
+    if (this.#listDestinations.find( (item) => item.name === he.encode(evt.target.value) )) {
+      this.updateElement({
+        destination: evt.target.value,
+      });
+    }
   };
 
   #dueDateFromChangeHandler = ([userDate]) => {
@@ -216,8 +222,17 @@ export default class EditPoint extends AbstractStatefulView{
 
   #dueDateToChangeHandler = ([userDate]) => {
     this.updateElement({
-      dateTo: userDate,
+      dateTo: userDate.toISOString(),
     });
+  };
+
+  #priceChangeHandler = (evt) => {
+    evt.preventDefault();
+    if( Number(he.encode(evt.target.value)) ) {
+      this.updateElement({
+        basePrice: evt.target.value,
+      });
+    }
   };
 
   #setDatepicker() {
@@ -246,6 +261,11 @@ export default class EditPoint extends AbstractStatefulView{
       );
     }
   }
+
+  #formDeleteClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleDeleteClick(EditPoint.parseStateToPoint(this._state));
+  };
 
   static parsePointToState(point) {
     return {...point};
