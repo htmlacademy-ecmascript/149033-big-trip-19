@@ -5,7 +5,19 @@ const LIMIT_POINT = 20;
 
 
 export default class PointsModel extends Observable {
+  #pointsApiService = null;
+
   #points = Array.from({length: LIMIT_POINT}, getRandomPoint);
+
+  constructor({pointsApiService}) {
+    super();
+    this.#pointsApiService = pointsApiService;
+
+    this.#pointsApiService.points.then((points) => {
+      console.log(points);
+
+    });
+  }
 
   get points() {
     return this.#points;
