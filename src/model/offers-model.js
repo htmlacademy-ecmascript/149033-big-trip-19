@@ -1,6 +1,6 @@
 import Observable from '../framework/observable.js';
 import {getOffers} from '../mock/offer.js';
-import {UpdateType} from '../const.js';
+//import {UpdateType} from '../const.js';
 
 export default class OffersModel extends Observable{
   #offers = getOffers();
