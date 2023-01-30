@@ -7,11 +7,11 @@ export default class OffersModel extends Observable{
   #offersApiService = null;
   // #offers = [];
 
-  // constructor({offersApiService}) {
-  //   super();
-  //   this.#offersApiService = offersApiService;
+  constructor({offersApiService}) {
+    super();
+    this.#offersApiService = offersApiService;
 
-  // }
+  }
 
   get offers() {
     return this.#offers;
@@ -19,12 +19,15 @@ export default class OffersModel extends Observable{
 
   // async init() {
   //   try {
-  //     this.#offers = await this.#offersApiService.offers;
+  //     this.#offers_ = await this.#offersApiService.offers;
+
   //   } catch(err) {
   //     this.#offers = [];
   //   }
+  //   return this.#offers;
   // }
-  init() {
-    this.#offers = getOffers();
-  }
+
+  // init() {
+  //   this.#offers = getOffers();
+  // }
 }

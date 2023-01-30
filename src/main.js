@@ -14,10 +14,10 @@ const bodyElement = document.querySelector('.page-body');
 const filterElement = bodyElement.querySelector('.trip-controls__filters');
 const tripEventsElement = bodyElement.querySelector('.trip-events');
 const addBtnElement = bodyElement.querySelector('.trip-main__event-add-btn');
-// const offersModel = new OffersModel({
-//   offersApiService: new OffersApiService(END_POINT, AUTHORIZATION)
-// });
-const offersModel = new OffersModel();
+const offersModel = new OffersModel({
+  offersApiService: new OffersApiService(END_POINT, AUTHORIZATION)
+});
+//const offersModel = new OffersModel();
 const destinationsModel = new DestinationsModel();
 const pointsModel = new PointsModel({
   pointsApiService: new PointsApiService(END_POINT, AUTHORIZATION)
@@ -44,15 +44,5 @@ function onNewPointDestroy() {
 
 filterPresenter.init();
 boardTripsPresenter.init();
-//offersModel.init();
-pointsModel.init();
-// Promise.all([pointsModel, offersModel, destinationsModel])
-//   .then((responses) => {
-//     responses.forEach( (resp) => {
-//       console.log(resp);
-//       resp.init();
-//     });
-//   }).catch( (error) => {
-//     console.error(error);
-//   });
 
+pointsModel.init();
