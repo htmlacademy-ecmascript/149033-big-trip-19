@@ -46,3 +46,13 @@ filterPresenter.init();
 boardTripsPresenter.init();
 //offersModel.init();
 pointsModel.init();
+// Promise.all([pointsModel, offersModel, destinationsModel])
+//   .then((responses) => {
+//     responses.forEach( (resp) => {
+//       console.log(resp);
+//       resp.init();
+//     });
+//   }).catch( (error) => {
+//     console.error(error);
+//   });
+
