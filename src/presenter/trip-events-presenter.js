@@ -2,6 +2,7 @@ import {render, RenderPosition, remove} from '../framework/render.js';
 import SortView from '../view/sort-view.js';
 import EventsListView from '../view/events-list-view.js';
 import ListEmptyView from '../view/list-empty-view.js';
+import LoadingView from '../view/loading-view.js';
 import PointPresenter from './point-presenter.js';
 import NewPointPresenter from './new-point-presenter.js';
 import {filter} from '../utils/filter.js';
@@ -10,6 +11,7 @@ import {SortType, UpdateType, UserAction, FilterType} from '../const.js';
 
 export default class TripEventsPresenter {
   #eventsListComponent = new EventsListView();
+  #loadingComponent = new LoadingView();
   #tripEventsContainer = null;
   #pointsModel = null;
   #offersModel = null;
@@ -23,6 +25,7 @@ export default class TripEventsPresenter {
   #pointPresenter = new Map();
   #currentSortType = SortType.DAY;
   #newPointPresenter = null;
+  #isLoading = true;
 
   #filterType = FilterType.EVERYTHING;
 
@@ -104,6 +107,11 @@ export default class TripEventsPresenter {
         this.#clearTrip({resetSortType: true});
         this.#renderTrip();
         break;
+      case UpdateType.INIT:
+        this.#isLoading = false;
+        remove(this.#loadingComponent);
+        this.#renderTrip();
+        break;
     }
   };
 
@@ -141,6 +149,10 @@ export default class TripEventsPresenter {
     points.forEach((point) => this.#renderPoint(point));
   }
 
+  #renderLoading() {
+    render(this.#loadingComponent, this.#tripEventsContainer, RenderPosition.AFTERBEGIN);
+  }
+
   #renderEventsList() {
     const points = this.points;
     render(this.#eventsListComponent, this.#tripEventsContainer);
@@ -160,7 +172,7 @@ export default class TripEventsPresenter {
     this.#pointPresenter.clear();
 
     remove(this.#sortComponent);
-    remove(this.#listEmptyComponent);
+    remove(this.#loadingComponent);
 
     if (this.#listEmptyComponent ) {
       remove(this.#listEmptyComponent );
@@ -172,6 +184,10 @@ export default class TripEventsPresenter {
   }
 
   #renderTrip() {
+    if (this.#isLoading) {
+      this.#renderLoading();
+      return;
+    }
     if( this.points.length === 0 ){
       this.#renderNoPoints();
       return;

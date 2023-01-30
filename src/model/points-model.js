@@ -1,26 +1,29 @@
 import Observable from '../framework/observable.js';
-import { getRandomPoint } from '../mock/point.js';
-
-const LIMIT_POINT = 20;
-
+import {UpdateType} from '../const.js';
 
 export default class PointsModel extends Observable {
   #pointsApiService = null;
-
-  #points = Array.from({length: LIMIT_POINT}, getRandomPoint);
+  #points = [];
 
   constructor({pointsApiService}) {
     super();
     this.#pointsApiService = pointsApiService;
 
-    this.#pointsApiService.points.then((points) => {
-      console.log(points.map(this.#adaptToClient));
-
-    });
   }
 
   get points() {
     return this.#points;
+  }
+
+  async init() {
+    try {
+      const points = await this.#pointsApiService.points;
+      this.#points = points.map(this.#adaptToClient);
+    } catch(err) {
+      this.#points = [];
+    }
+
+    this._notify(UpdateType.INIT);
   }
 
   getPointsWithDestinations(destinations, offers) {
