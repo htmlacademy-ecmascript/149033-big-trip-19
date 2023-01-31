@@ -1,9 +1,7 @@
 import Observable from '../framework/observable.js';
-import {getOffers} from '../mock/offer.js';
-//import {UpdateType} from '../const.js';
 
 export default class OffersModel extends Observable{
-  #offers = getOffers();
+  #offers = [];
   #offersApiService = null;
   // #offers = [];
 
@@ -17,17 +15,14 @@ export default class OffersModel extends Observable{
     return this.#offers;
   }
 
-  // async init() {
-  //   try {
-  //     this.#offers_ = await this.#offersApiService.offers;
+  async init() {
+    try {
+      this.#offers = await this.#offersApiService.offers;
 
-  //   } catch(err) {
-  //     this.#offers = [];
-  //   }
-  //   return this.#offers;
-  // }
+    } catch(err) {
+      this.#offers = [];
+    }
+    return this.#offers;
+  }
 
-  // init() {
-  //   this.#offers = getOffers();
-  // }
 }

@@ -6,6 +6,7 @@ import PointsModel from './model/points-model.js';
 import FilterModel from './model/filter-model.js';
 import PointsApiService from './points-api-service.js';
 import OffersApiService from './offers-api-service.js';
+import DestinationsApiService from './destinations-api-service.js';
 
 const AUTHORIZATION = 'Basic 99b235bd5a5c9de';
 const END_POINT = 'https://19.ecmascript.pages.academy/big-trip';
@@ -17,8 +18,11 @@ const addBtnElement = bodyElement.querySelector('.trip-main__event-add-btn');
 const offersModel = new OffersModel({
   offersApiService: new OffersApiService(END_POINT, AUTHORIZATION)
 });
-//const offersModel = new OffersModel();
-const destinationsModel = new DestinationsModel();
+
+const destinationsModel = new DestinationsModel({
+  destinationsApiService: new DestinationsApiService(END_POINT, AUTHORIZATION)
+}
+);
 const pointsModel = new PointsModel({
   pointsApiService: new PointsApiService(END_POINT, AUTHORIZATION)
 });
@@ -41,8 +45,10 @@ addBtnElement.addEventListener('click', (evt) => {
 function onNewPointDestroy() {
   addBtnElement.disabled = false;
 }
-
-filterPresenter.init();
-boardTripsPresenter.init();
-
-pointsModel.init();
+///инициализация destinations, offers, points
+destinationsModel.init();
+offersModel.init();
+pointsModel.init().finally( () => {
+  filterPresenter.init();
+  boardTripsPresenter.init();
+} );
