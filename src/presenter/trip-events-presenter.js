@@ -36,8 +36,6 @@ export default class TripEventsPresenter {
     this.#destinationsModel = destinationsModel;
     this.#filterModel = filterModel;
     this.#newPointPresenter = new NewPointPresenter({
-      offers: this.#offersModel.offers,
-      destinations: this.#destinationsModel.destinations,
       pointListContainer: this.#eventsListComponent.element,
       onDataChange: this.#handleViewAction,
       onDestroy: onNewPointDestroy
@@ -62,16 +60,16 @@ export default class TripEventsPresenter {
     return filteredPoints;
   }
 
-  init() {
-    this.#offers = this.#offersModel.offers;
-    this.#destinations = this.#destinationsModel.destinations;
+  init( offers = [], destinations = [] ) {
+    this.#offers = offers;
+    this.#destinations = destinations;
     this.#renderTrip();
   }
 
   createPoint() {
     this.#currentSortType = SortType.DAY;
     this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
-    this.#newPointPresenter.init();
+    this.#newPointPresenter.init({offers: this.#pointsModel.offers, destinations: this.#pointsModel.destinations,});
   }
 
   #handleModeChange = () => {
@@ -120,10 +118,8 @@ export default class TripEventsPresenter {
       pointListContainer: this.#eventsListComponent.element,
       onDataChange: this.#handleViewAction,
       onModeChange: this.#handleModeChange,
-      offers: this.#offers,
-      destinations: this.#destinations,
     });
-    pointPresenter.init(point);
+    pointPresenter.init({point, offers: this.#offers, destinations: this.#destinations });
     this.#pointPresenter.set(point.id, pointPresenter);
   }
 
@@ -154,9 +150,10 @@ export default class TripEventsPresenter {
   }
 
   #renderEventsList() {
-    const points = this.points;
     render(this.#eventsListComponent, this.#tripEventsContainer);
-    this.#renderPoints(points);
+
+    this.#renderPoints(this.points);
+
   }
 
   #renderNoPoints() {
@@ -188,11 +185,15 @@ export default class TripEventsPresenter {
       this.#renderLoading();
       return;
     }
+    if ( !(this.#offers.length > 0) && !(this.#destinations.length > 0)) {
+      return;
+    }
     if( this.points.length === 0 ){
       this.#renderNoPoints();
       return;
     }
     this.#renderSort();
+
     this.#renderEventsList();
   }
 }

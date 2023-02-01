@@ -13,19 +13,19 @@ export default class NewPointPresenter {
 
   #pointEditComponent = null;
 
-  constructor({offers, destinations, pointListContainer, onDataChange, onDestroy}) {
+  constructor({ pointListContainer, onDataChange, onDestroy}) {
     this.#pointListContainer = pointListContainer;
     this.#handleDataChange = onDataChange;
     this.#handleDestroy = onDestroy;
-    this.#offers = offers;
-    this.#destinations = destinations;
   }
 
-  init() {
+  init({offers, destinations}) {
     if (this.#pointEditComponent !== null) {
       return;
     }
-
+    this.#offers = offers;
+    this.#destinations = destinations;
+    
     this.#pointEditComponent = new EditPoint({
       listOffers: this.#offers,
       listDestinations: this.#destinations,
