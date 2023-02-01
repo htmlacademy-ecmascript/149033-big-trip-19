@@ -4,6 +4,8 @@ import {UpdateType} from '../const.js';
 export default class PointsModel extends Observable {
   #pointsApiService = null;
   #points = [];
+  #destinations = [];
+  #offers = [];
 
   constructor({pointsApiService}) {
     super();
@@ -15,23 +17,41 @@ export default class PointsModel extends Observable {
     return this.#points;
   }
 
+  get destinations() {
+    return this.#destinations;
+  }
+
+  set destinations(data) {
+    this.#destinations = data;
+  }
+
+  set offers(data) {
+    this.#offers = data;
+  }
+
+  get offers() {
+    return this.#offers;
+  }
+
   async init() {
     try {
       const points = await this.#pointsApiService.points;
       this.#points = points.map(this.#adaptToClient);
     } catch(err) {
       this.#points = [];
+      this.#destinations = [];
+      this.#offers = [];
     }
-
     this._notify(UpdateType.INIT);
   }
 
-  getPointsWithDestinations(destinations, offers) {
+  getPointsWithDestinations() {
+    const offers = this.#offers;
+    const destinationsCurr = this.#destinations;
     const getOfferByType = (typeCurrent) => offers.find( (item) => item.type === typeCurrent);
-
     const getPointsAddition = (item) => ({
       ...item,
-      destination: destinations.find( (destination) => destination.id === item.destination || destination.name === item.destination).name,
+      destination: destinationsCurr.find( (destination) => destination.id === item.destination || destination.name === item.destination).name,
       offers: getOfferByType(item.type).offers.filter( (offer) => item.offers.includes(offer.id) || item.offers.map( (el) => el.id).includes(offer.id)),
     });
     return this.#points.map( getPointsAddition );

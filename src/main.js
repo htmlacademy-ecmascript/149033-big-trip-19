@@ -27,28 +27,48 @@ const pointsModel = new PointsModel({
   pointsApiService: new PointsApiService(END_POINT, AUTHORIZATION)
 });
 const filterModel = new FilterModel();
+
+function onNewPointDestroy() {
+  addBtnElement.disabled = false;
+}
+
 const pointsObject = {tripEventsElement, pointsModel, offersModel, destinationsModel, filterModel, onNewPointDestroy};
-const boardTripsPresenter = new TripEventsPresenter(pointsObject);
 
 const filterPresenter = new FilterPresenter({
   filterContainer: filterElement,
   filterModel,
   pointsModel
 });
-
-addBtnElement.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  boardTripsPresenter.createPoint();
-  addBtnElement.disabled = true;
-});
-
-function onNewPointDestroy() {
-  addBtnElement.disabled = false;
-}
+const boardTripsPresenter = new TripEventsPresenter(pointsObject);
 ///инициализация destinations, offers, points
-destinationsModel.init();
-offersModel.init();
-pointsModel.init().finally( () => {
-  filterPresenter.init();
-  boardTripsPresenter.init();
-} );
+// destinationsModel.init();
+// destinationsModel.init().finally( () => console.log(1));
+// offersModel.init();
+
+// pointsModel.init().finally( () => {
+//   console.log(pointsModel.points);
+//   filterPresenter.init();
+//   boardTripsPresenter.init();
+// } );
+
+//pointsModel.init();
+Promise.all([ pointsModel.init(), offersModel.init(), destinationsModel.init()]).finally(
+  () => {
+    console.log(destinationsModel.destinations);
+    console.log(offersModel.offers);
+    console.log(pointsModel.points);
+
+    pointsModel.destinations = destinationsModel.destinations;
+    pointsModel.offers = offersModel.offers;
+
+    addBtnElement.addEventListener('click', (evt) => {
+      evt.preventDefault();
+      boardTripsPresenter.createPoint();
+      addBtnElement.disabled = true;
+    });
+
+    filterPresenter.init();
+    boardTripsPresenter.init();
+  }
+);
+

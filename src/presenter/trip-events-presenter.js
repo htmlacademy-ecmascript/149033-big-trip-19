@@ -49,7 +49,7 @@ export default class TripEventsPresenter {
 
   get points() {
     this.#filterType = this.#filterModel.filter;
-    const pointsWithDestinations = [...this.#pointsModel.getPointsWithDestinations(this.#destinations, this.#offers)];
+    const pointsWithDestinations = [...this.#pointsModel.getPointsWithDestinations()];
     const filteredPoints = filter[this.#filterType](pointsWithDestinations);
     switch (this.#currentSortType) {
       case SortType.DAY:
