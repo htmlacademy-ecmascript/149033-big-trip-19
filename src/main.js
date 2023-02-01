@@ -54,9 +54,9 @@ const boardTripsPresenter = new TripEventsPresenter(pointsObject);
 //pointsModel.init();
 Promise.all([ pointsModel.init(), offersModel.init(), destinationsModel.init()]).finally(
   () => {
-    console.log(destinationsModel.destinations);
-    console.log(offersModel.offers);
-    console.log(pointsModel.points);
+    //console.log(destinationsModel.destinations);
+    //console.log(offersModel.offers);
+    //console.log(pointsModel.points);
 
     pointsModel.destinations = destinationsModel.destinations;
     pointsModel.offers = offersModel.offers;
@@ -71,4 +71,5 @@ Promise.all([ pointsModel.init(), offersModel.init(), destinationsModel.init()])
     boardTripsPresenter.init();
   }
 );
+
 

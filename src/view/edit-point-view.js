@@ -61,7 +61,7 @@ const pointDefault = {
   }],
   type: TYPE[0],
 };
-const getOffersByType = (typeCurrent, offers) => offers.find((item) => item.type === typeCurrent).offers;
+const getOffersByType = (typeCurrent, offers) => offers.find((item) => item.type === typeCurrent)?.offers;
 
 function createEditPointTemplate( listOffers, listDestinations, listType, point) {
   const { basePrice, dateFrom, dateTo, destination, offers, type } = point;

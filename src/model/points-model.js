@@ -46,12 +46,14 @@ export default class PointsModel extends Observable {
   getPointsWithDestinations() {
     const offers = this.#offers;
     const destinationsCurr = this.#destinations;
-    const getOfferByType = (typeCurrent) => offers.find( (item) => item.type === typeCurrent);
+
+    const getOfferByType = (typeCurrent) => offers.find( (item) => item.type === typeCurrent)?.offers || [];
     const getPointsAddition = (item) => ({
       ...item,
       destination: destinationsCurr.find( (destination) => destination.id === item.destination || destination.name === item.destination)?.name,
-      offers: getOfferByType(item.type).offers.filter( (offer) => item.offers.includes(offer.id) || item.offers.map( (el) => el.id).includes(offer.id)),
+      offers: getOfferByType(item.type).filter( (offer) => item.offers.includes(offer.id)),
     });
+ 
     return this.#points.map( getPointsAddition );
   }
 
