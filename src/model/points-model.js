@@ -65,7 +65,7 @@ export default class PointsModel extends Observable {
     if (index === -1) {
       throw new Error('Can\'t update unexisting point');
     }
-    this.#pointById(update);
+    this.#setPointDistantionAndOffersId(update);
     try {
 
       const response = await this.#pointsApiService.updatePoint(this.#updateById);
@@ -122,7 +122,7 @@ export default class PointsModel extends Observable {
     return adaptedPoint;
   }
 
-  #pointById(point) {
+  #setPointDistantionAndOffersId(point) {
     const updateByDistantionId = this.#destinations.find( (item) => item.name === point.destination).id;
     const updateByoffersId = point.offers.map( (item) => item.id);
     this.#updateById = {...point,
