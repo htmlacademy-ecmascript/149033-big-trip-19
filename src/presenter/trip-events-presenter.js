@@ -185,7 +185,7 @@ export default class TripEventsPresenter {
       this.#renderLoading();
       return;
     }
-    if ( !(this.#offers.length > 0) && !(this.#destinations.length > 0)) {
+    if ( this.#offers.length === 0 && this.#destinations.length === 0 ) {
       return;
     }
     if( !this.points.length){

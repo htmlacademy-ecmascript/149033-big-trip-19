@@ -5,5 +5,4 @@ export default class DestinationsApiService extends ApiService {
     return this._load({url: 'destinations'})
       .then(ApiService.parseResponse);
   }
-
 }
