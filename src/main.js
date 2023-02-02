@@ -52,8 +52,6 @@ addBtnElement.addEventListener('click', (evt) => {
 boardTripsPresenter.init();
 Promise.all([destinationsModel.init(), offersModel.init(), pointsModel.init()]).finally(
   () => {
-    pointsModel.destinations = destinationsModel.destinations;
-    pointsModel.offers = offersModel.offers;
-    boardTripsPresenter.init(pointsModel.offers , pointsModel.destinations);
+    boardTripsPresenter.init();
   }
 );

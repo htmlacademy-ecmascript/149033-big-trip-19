@@ -4,9 +4,6 @@ import {UpdateType} from '../const.js';
 export default class PointsModel extends Observable {
 
   #points = [];
-  #destinations = [];
-  #offers = [];
-  #updateById = [];
   #pointsApiService = null;
 
   constructor({pointsApiService}) {
@@ -19,22 +16,6 @@ export default class PointsModel extends Observable {
     return this.#points;
   }
 
-  get destinations() {
-    return this.#destinations;
-  }
-
-  set destinations(data) {
-    this.#destinations = data;
-  }
-
-  set offers(data) {
-    this.#offers = data;
-  }
-
-  get offers() {
-    return this.#offers;
-  }
-
   async init() {
     try {
       const points = await this.#pointsApiService.points;
@@ -45,14 +26,11 @@ export default class PointsModel extends Observable {
     this._notify(UpdateType.INIT);
   }
 
-  getPointsWithDestinations() {
-    const offers = this.#offers;
-    const destinationsCurr = this.#destinations;
-
+  getPointsWithDestinations({offers, destinations}) {
     const getOfferByType = (typeCurrent) => offers.find( (item) => item.type === typeCurrent)?.offers || [];
     const getPointsAddition = (item) => ({
       ...item,
-      destination: destinationsCurr.find( (destination) => destination.id === item.destination || destination.name === item.destination)?.name,
+      destination: destinations.find( (destination) => destination.id === item.destination || destination.name === item.destination)?.name,
       offers: getOfferByType(item.type).filter( (offer) => item.offers.includes(offer.id)),
     });
 
@@ -65,10 +43,9 @@ export default class PointsModel extends Observable {
     if (index === -1) {
       throw new Error('Can\'t update unexisting point');
     }
-    this.#setPointDistantionAndOffersId(update);
     try {
 
-      const response = await this.#pointsApiService.updatePoint(this.#updateById);
+      const response = await this.#pointsApiService.updatePoint(update);
       const updatedPoint = this.#adaptToClient(response);
 
       this.#points = [
@@ -122,10 +99,10 @@ export default class PointsModel extends Observable {
     return adaptedPoint;
   }
 
-  #setPointDistantionAndOffersId(point) {
-    const updateByDistantionId = this.#destinations.find( (item) => item.name === point.destination).id;
+  getPointWithDistantionAndOffersId({point, destinations}) {
+    const updateByDistantionId = destinations.find( (item) => item.name === point.destination).id;
     const updateByoffersId = point.offers.map( (item) => item.id);
-    this.#updateById = {...point,
+    return {...point,
       offers: updateByoffersId,
       destination: updateByDistantionId,
     };

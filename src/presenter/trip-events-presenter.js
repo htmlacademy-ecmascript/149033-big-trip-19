@@ -47,7 +47,7 @@ export default class TripEventsPresenter {
 
   get points() {
     this.#filterType = this.#filterModel.filter;
-    const pointsWithDestinations = [...this.#pointsModel.getPointsWithDestinations()];
+    const pointsWithDestinations = [...this.#pointsModel.getPointsWithDestinations({offers: this.#offersModel.offers, destinations: this.#destinationsModel.destinations})];
     const filteredPoints = filter[this.#filterType](pointsWithDestinations);
     switch (this.#currentSortType) {
       case SortType.DAY:
@@ -60,16 +60,16 @@ export default class TripEventsPresenter {
     return filteredPoints;
   }
 
-  init( offers = [], destinations = [] ) {
-    this.#offers = offers;
-    this.#destinations = destinations;
+  init() {
+    this.#offers = this.#offersModel.offers;
+    this.#destinations = this.#destinationsModel.destinations;
     this.#renderTrip();
   }
 
   createPoint() {
     this.#currentSortType = SortType.DAY;
     this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
-    this.#newPointPresenter.init({offers: this.#pointsModel.offers, destinations: this.#pointsModel.destinations,});
+    this.#newPointPresenter.init({offers: this.#offersModel.offers, destinations: this.#destinationsModel.destinations,});
   }
 
   #handleModeChange = () => {
@@ -79,15 +79,16 @@ export default class TripEventsPresenter {
 
 
   #handleViewAction = (actionType, updateType, update) => {
+    const pointUpdate = this.#pointsModel.getPointWithDistantionAndOffersId({point: update, destinations: this.#destinationsModel.destinations });
     switch (actionType) {
       case UserAction.UPDATE_POINT:
-        this.#pointsModel.updatePoint(updateType, update);
+        this.#pointsModel.updatePoint(updateType, pointUpdate);
         break;
       case UserAction.ADD_POINT:
-        this.#pointsModel.addPoint(updateType, update);
+        this.#pointsModel.addPoint(updateType, pointUpdate);
         break;
       case UserAction.DELETE_POINT:
-        this.#pointsModel.deletePoint(updateType, update);
+        this.#pointsModel.deletePoint(updateType, pointUpdate);
         break;
     }
   };
