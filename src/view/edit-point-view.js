@@ -64,7 +64,6 @@ const pointDefault = {
 const getOffersByType = (typeCurrent, offers) => offers.find((item) => item.type === typeCurrent)?.offers;
 
 function createEditPointTemplate( listOffers, listDestinations, listType, point) {
-  console.log(listOffers);
   const { basePrice, dateFrom, dateTo, destination, offers, type } = point;
   return `
   <li class="trip-events__item">

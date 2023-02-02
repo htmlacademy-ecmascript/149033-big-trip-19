@@ -2,10 +2,12 @@ import Observable from '../framework/observable.js';
 import {UpdateType} from '../const.js';
 
 export default class PointsModel extends Observable {
-  #pointsApiService = null;
+
   #points = [];
   #destinations = [];
   #offers = [];
+  #updateById = [];
+  #pointsApiService = null;
 
   constructor({pointsApiService}) {
     super();
@@ -53,24 +55,32 @@ export default class PointsModel extends Observable {
       destination: destinationsCurr.find( (destination) => destination.id === item.destination || destination.name === item.destination)?.name,
       offers: getOfferByType(item.type).filter( (offer) => item.offers.includes(offer.id)),
     });
- 
+
     return this.#points.map( getPointsAddition );
   }
 
-  updatePoint(updateType, update) {
+  async updatePoint(updateType, update) {
     const index = this.#points.findIndex((point) => point.id === update.id);
 
     if (index === -1) {
       throw new Error('Can\'t update unexisting point');
     }
+    this.#pointById(update);
+    try {
 
-    this.#points = [
-      ...this.#points.slice(0, index),
-      update,
-      ...this.#points.slice(index + 1),
-    ];
+      const response = await this.#pointsApiService.updatePoint(this.#updateById);
+      const updatedPoint = this.#adaptToClient(response);
 
-    this._notify(updateType, update);
+      this.#points = [
+        ...this.#points.slice(0, index),
+        updatedPoint,
+        ...this.#points.slice(index + 1),
+      ];
+
+      this._notify(updateType, updatedPoint );
+    } catch(err) {
+      throw new Error('Can\'t update point');
+    }
   }
 
   addPoint(updateType, update) {
@@ -110,5 +120,14 @@ export default class PointsModel extends Observable {
     delete adaptedPoint['is_favorite'];
 
     return adaptedPoint;
+  }
+
+  #pointById(point) {
+    const updateByDistantionId = this.#destinations.find( (item) => item.name === point.destination).id;
+    const updateByoffersId = point.offers.map( (item) => item.id);
+    this.#updateById = {...point,
+      offers: updateByoffersId,
+      destination: updateByDistantionId,
+    };
   }
 }

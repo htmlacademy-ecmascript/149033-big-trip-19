@@ -57,6 +57,3 @@ Promise.all([destinationsModel.init(), offersModel.init(), pointsModel.init()]).
     boardTripsPresenter.init(pointsModel.offers , pointsModel.destinations);
   }
 );
-
-
-

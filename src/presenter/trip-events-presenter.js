@@ -188,7 +188,7 @@ export default class TripEventsPresenter {
     if ( !(this.#offers.length > 0) && !(this.#destinations.length > 0)) {
       return;
     }
-    if( this.points.length === 0 ){
+    if( !this.points.length){
       this.#renderNoPoints();
       return;
     }
