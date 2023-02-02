@@ -25,7 +25,7 @@ export default class NewPointPresenter {
     }
     this.#offers = offers;
     this.#destinations = destinations;
-    
+
     this.#pointEditComponent = new EditPoint({
       listOffers: this.#offers,
       listDestinations: this.#destinations,
