@@ -2,7 +2,6 @@ import he from 'he';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { getDateHumanize } from '../utils/point.js';
 import { TYPE } from '../const.js';
-//import dayjs from 'dayjs';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 
@@ -58,8 +57,10 @@ const pointDefault = {
 };
 const getOffersByType = (typeCurrent, offers) => offers.find((item) => item.type === typeCurrent)?.offers;
 
-function createEditPointTemplate( listOffers, listDestinations, listType, point) {
-  const { basePrice, dateFrom, dateTo, destination, offers, type } = point;
+function createEditPointTemplate( listOffers, listDestinations, listType, pointState) {
+  const { basePrice, dateFrom, dateTo, destination, offers, type, isDisabled, isSaving, isDeleting } = pointState;
+  const isSubmitDisabled = (getDestinationByName(destination, listDestinations) === undefined) || (dateFrom.getTime() === dateTo.getTime()) || (basePrice === 0);
+
   return `
   <li class="trip-events__item">
     <form class="event event--edit" action="#" method="post">
@@ -103,8 +104,8 @@ function createEditPointTemplate( listOffers, listDestinations, listType, point)
           <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${basePrice}">
         </div>
 
-        <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-        <button class="event__reset-btn" type="reset">Delete</button>
+        <button class="event__save-btn  btn  btn--blue" type="submit" ${isSubmitDisabled || isDisabled ? 'disabled' : ''}>${isSaving ? 'Saving...' : 'Save'}</button>
+        <button class="event__reset-btn" type="reset" ${isDisabled ? 'disabled' : ''}>${isDeleting ? 'Deleting...' : 'Delete'}</button>
         <button class="event__rollup-btn" type="button">
           <span class="visually-hidden">Open event</span>
         </button>
@@ -238,11 +239,9 @@ export default class EditPoint extends AbstractStatefulView{
         {
           enableTime: true,
           dateFormat: 'd/m/y H:i',
-          minDate: this._state.dateFrom,
           maxDate: this._state.dateTo,
-          dateFromPicker: this._state.dateFrom,
+          defaultDate: this._state.dateFrom,
           onChange: this.#dueDateFromChangeHandler,
-          time24hr: true
         },
       );
     }
@@ -258,7 +257,6 @@ export default class EditPoint extends AbstractStatefulView{
           minDate: this._state.dateFrom,
           defaultDate: this._state.dateTo,
           onChange: this.#dueDateToChangeHandler,
-          time24hr: true
         },
       );
     }
@@ -270,11 +268,19 @@ export default class EditPoint extends AbstractStatefulView{
   };
 
   static parsePointToState(point) {
-    return {...point};
+    return {...point,
+      isDisabled: false,
+      isSaving: false,
+      isDeleting: false
+    };
   }
 
   static parseStateToPoint(state) {
     const point = {...state};
+
+    delete point.isDisabled;
+    delete point.isDeleting;
+    delete point.isSaving;
 
     return point;
   }
