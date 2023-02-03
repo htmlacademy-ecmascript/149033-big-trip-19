@@ -47,7 +47,7 @@ export default class TripEventsPresenter {
 
   get points() {
     this.#filterType = this.#filterModel.filter;
-    const pointsWithDestinations = [...this.#pointsModel.getPointsWithDestinations({offers: this.#offersModel.offers, destinations: this.#destinationsModel.destinations})];
+    const pointsWithDestinations = [...this.#pointsModel.getPointsWithDestinations({offers: this.#offers, destinations: this.#destinations})];
     const filteredPoints = filter[this.#filterType](pointsWithDestinations);
     switch (this.#currentSortType) {
       case SortType.DAY:
@@ -69,7 +69,7 @@ export default class TripEventsPresenter {
   createPoint() {
     this.#currentSortType = SortType.DAY;
     this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
-    this.#newPointPresenter.init({offers: this.#offersModel.offers, destinations: this.#destinationsModel.destinations,});
+    this.#newPointPresenter.init({offers: this.#offers, destinations: this.#destinations,});
   }
 
   #handleModeChange = () => {
@@ -79,7 +79,7 @@ export default class TripEventsPresenter {
 
 
   #handleViewAction = (actionType, updateType, update) => {
-    const pointUpdate = this.#pointsModel.getPointWithDistantionAndOffersId({point: update, destinations: this.#destinationsModel.destinations });
+    const pointUpdate = this.#pointsModel.getPointWithDistantionAndOffersId({point: update, destinations: this.#destinations });
     switch (actionType) {
       case UserAction.UPDATE_POINT:
         this.#pointsModel.updatePoint(updateType, pointUpdate);
