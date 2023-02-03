@@ -2,7 +2,7 @@ import he from 'he';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { getDateHumanize } from '../utils/point.js';
 import { TYPE } from '../const.js';
-import dayjs from 'dayjs';
+//import dayjs from 'dayjs';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 
@@ -47,18 +47,13 @@ const showSectionDestination = (destination ) =>
                             ${createPhotosContainerTemplate(destination)}
                           </section>` : '';
 const getDestinationByName = (nameCurrent, destinations) => destinations.find( (item) => item.name === nameCurrent);
-const currentDate = dayjs().toISOString();
 const pointDefault = {
   basePrice: 0,
-  dateFrom: currentDate,
-  dateTo: currentDate,
+  dateFrom: new Date(),
+  dateTo: new Date(),
   destination: '',
   isFavorite: false,
-  offers:  [{
-    id: null,
-    title: '',
-    price: 0,
-  }],
+  offers:  [],
   type: TYPE[0],
 };
 const getOffersByType = (typeCurrent, offers) => offers.find((item) => item.type === typeCurrent)?.offers;
@@ -195,7 +190,8 @@ export default class EditPoint extends AbstractStatefulView{
     this.element.querySelector('.event__input--destination').addEventListener('change', this.#destinationChangeHandler);
     this.element.querySelector('.event__input--price').addEventListener('change', this.#priceChangeHandler);
     this.element.querySelector('.event__reset-btn').addEventListener('click', this.#formDeleteClickHandler);
-    this.#setDatepicker();
+    this.#setDatepickerDateFrom();
+    this.#setDatepickerDateTo();
   }
 
   #typeChangeHandler = (evt) => {
@@ -222,7 +218,7 @@ export default class EditPoint extends AbstractStatefulView{
 
   #dueDateToChangeHandler = ([userDate]) => {
     this.updateElement({
-      dateTo: userDate.toISOString(),
+      dateTo: userDate,
     });
   };
 
@@ -230,33 +226,39 @@ export default class EditPoint extends AbstractStatefulView{
     evt.preventDefault();
     if( Number(he.encode(evt.target.value)) ) {
       this.updateElement({
-        basePrice: evt.target.value,
+        basePrice: Number(evt.target.value),
       });
     }
   };
 
-  #setDatepicker() {
+  #setDatepickerDateFrom() {
     if (this._state.dateFrom) {
       this.#dateFromPicker = flatpickr(
         this.element.querySelector('#event-start-time-1'),
         {
           enableTime: true,
-          dateFormat: 'Y/m/d H:i',
+          dateFormat: 'd/m/y H:i',
+          minDate: this._state.dateFrom,
           maxDate: this._state.dateTo,
-          defaultDate: this._state.dateFrom,
-          onClose: this.#dueDateFromChangeHandler,
+          dateFromPicker: this._state.dateFrom,
+          onChange: this.#dueDateFromChangeHandler,
+          time24hr: true
         },
       );
     }
+  }
+
+  #setDatepickerDateTo() {
     if (this._state.dateTo) {
       this.#dateToPicker = flatpickr(
         this.element.querySelector('#event-end-time-1'),
         {
           enableTime: true,
-          dateFormat: 'Y/m/d H:i',
+          dateFormat: 'd/m/y H:i',
           minDate: this._state.dateFrom,
           defaultDate: this._state.dateTo,
-          onClose: this.#dueDateToChangeHandler,
+          onChange: this.#dueDateToChangeHandler,
+          time24hr: true
         },
       );
     }
