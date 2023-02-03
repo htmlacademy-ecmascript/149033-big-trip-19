@@ -34,18 +34,17 @@ export default class PointPresenter {
     this.#handleModeChange = onModeChange;
   }
 
-  init(point) {
+  init({point, offers, destinations}) {
     this.#point = point;
-
+    this.#offers = offers;
+    this.#destinations = destinations;
     const prevPointComponent = this.#pointComponent;
     const prevPointEditComponent = this.#pointEditComponent;
-
     this.#pointComponent = new Point({
       point: this.#point,
       onEditClick: this.#handlePointClick,
       onFavoriteClick: this.#handleFavoriteClick,
     });
-
     this.#pointEditComponent = new EditPoint({
       listOffers: this.#offers,
       listDestinations: this.#destinations,
@@ -120,7 +119,7 @@ export default class PointPresenter {
       isMinorUpdate ? UpdateType.MINOR : UpdateType.PATCH,
       update
     );
-    this.#replaceEditPointToPoint();
+    //? this.#replaceEditPointToPoint();
   };
 
   #handleDeleteClick = (point) => {

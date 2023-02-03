@@ -24,7 +24,7 @@ const isCheckedOffer = (offer, offersCurrent) =>
   offersCurrent.map( (item) => item.id).includes(offer.id) ? 'checked' : '';
 const createOffersTemplate = (offersAll, offersCurrent) => offersAll.map( (item) =>
   `<div class="event__offer-selector">
-    <input class="event__offer-checkbox  visually-hidden" id="event-offer-${getLastWord(item.title)}-1" type="checkbox" name="event-offer-${getLastWord(item.title)}" ${isCheckedOffer(item, offersCurrent)}>
+    <input class="event__offer-checkbox  visually-hidden" id="event-offer-${getLastWord(item.title)}-1" type="checkbox" data-offer-id="${item.id}" name="event-offer-${getLastWord(item.title)}" ${isCheckedOffer(item, offersCurrent)}>
     <label class="event__offer-label" for="event-offer-${getLastWord(item.title)}-1">
       <span class="event__offer-title">${item.title}</span>
       &plus;&euro;&nbsp;
@@ -52,7 +52,7 @@ const pointDefault = {
   basePrice: 0,
   dateFrom: currentDate,
   dateTo: currentDate,
-  destination: 'Lyon',
+  destination: '',
   isFavorite: false,
   offers:  [{
     id: null,
@@ -61,7 +61,7 @@ const pointDefault = {
   }],
   type: TYPE[0],
 };
-const getOffersByType = (typeCurrent, offers) => offers.find((item) => item.type === typeCurrent).offers;
+const getOffersByType = (typeCurrent, offers) => offers.find((item) => item.type === typeCurrent)?.offers;
 
 function createEditPointTemplate( listOffers, listDestinations, listType, point) {
   const { basePrice, dateFrom, dateTo, destination, offers, type } = point;
