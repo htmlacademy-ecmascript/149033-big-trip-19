@@ -49,7 +49,7 @@ const getDestinationByName = (nameCurrent, destinations) => destinations.find( (
 const pointDefault = {
   basePrice: 0,
   dateFrom: new Date(),
-  dateTo: new Date(),
+  dateTo: new Date(new Date().getTime() + 60000),
   destination: '',
   isFavorite: false,
   offers:  [],
