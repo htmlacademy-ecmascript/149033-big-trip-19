@@ -76,6 +76,10 @@ export default class TripEventsPresenter {
     this.#renderTrip();
   }
 
+  initTrip() {
+    this.#renderTrip();
+  }
+
   createPoint() {
     this.#currentSortType = SortType.DAY;
     this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
