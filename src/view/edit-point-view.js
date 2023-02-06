@@ -23,8 +23,8 @@ const isCheckedOffer = (offer, offersCurrent) =>
   offersCurrent.map( (item) => item.id).includes(offer.id) ? 'checked' : '';
 const createOffersTemplate = (offersAll, offersCurrent) => offersAll.map( (item) =>
   `<div class="event__offer-selector">
-    <input class="event__offer-checkbox  visually-hidden" id="event-offer-${getLastWord(item.title)}-1" type="checkbox" data-offer-id="${item.id}" name="event-offer-${getLastWord(item.title)}" ${isCheckedOffer(item, offersCurrent)}>
-    <label class="event__offer-label" for="event-offer-${getLastWord(item.title)}-1">
+    <input class="event__offer-checkbox  visually-hidden" id="event-offer-${getLastWord(item.title)}-${item.id}" type="checkbox" data-offer-id="${item.id}" data-offer-title="${item.title}" data-offer-price="${item.price}" name="event-offer-${item.id}" ${isCheckedOffer(item, offersCurrent)}>
+    <label class="event__offer-label" for="event-offer-${getLastWord(item.title)}-${item.id}">
       <span class="event__offer-title">${item.title}</span>
       &plus;&euro;&nbsp;
       <span class="event__offer-price">${item.price}</span>
@@ -49,7 +49,7 @@ const getDestinationByName = (nameCurrent, destinations) => destinations.find( (
 const pointDefault = {
   basePrice: 0,
   dateFrom: new Date(),
-  dateTo: new Date(),
+  dateTo: new Date(new Date().getTime() + 60000),
   destination: '',
   isFavorite: false,
   offers:  [],
@@ -188,6 +188,7 @@ export default class EditPoint extends AbstractStatefulView{
     this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHandler);
     this.element.querySelector('.event__type-group').addEventListener('change', this.#typeChangeHandler);
+    this.element.querySelector('.event__available-offers')?.addEventListener('change', this.#offerChangeHandler);
     this.element.querySelector('.event__input--destination').addEventListener('change', this.#destinationChangeHandler);
     this.element.querySelector('.event__input--price').addEventListener('change', this.#priceChangeHandler);
     this.element.querySelector('.event__reset-btn').addEventListener('click', this.#formDeleteClickHandler);
@@ -229,6 +230,25 @@ export default class EditPoint extends AbstractStatefulView{
       this.updateElement({
         basePrice: Number(evt.target.value),
       });
+    }
+  };
+
+  #offerChangeHandler = (evt) => {
+    evt.preventDefault();
+    if (evt.target.dataset.offerId) {
+
+      const currentOfferId = Number(evt.target.dataset.offerId);
+      const currentOfferTitle = evt.target.dataset.offerTitle;
+      const currentOfferPrice = evt.target.dataset.offerPrice;
+      const index = this._state.offers.findIndex( (item) => item.id === currentOfferId);
+
+      if (index === -1) {
+        this._setState(this._state.offers.push({id: currentOfferId, title: currentOfferTitle, price: currentOfferPrice }));
+        return;
+      }
+
+      this._state.offers.splice(index, 1);
+      this._setState(this._state);
     }
   };
 
@@ -277,7 +297,6 @@ export default class EditPoint extends AbstractStatefulView{
 
   static parseStateToPoint(state) {
     const point = {...state};
-
     delete point.isDisabled;
     delete point.isDeleting;
     delete point.isSaving;
