@@ -52,7 +52,7 @@ const pointDefault = {
   dateTo: new Date(new Date().getTime() + 60000),
   destination: '',
   isFavorite: false,
-  offers:  [],
+  offers: [],
   type: TYPE[0],
 };
 const getOffersByType = (typeCurrent, offers) => offers.find((item) => item.type === typeCurrent)?.offers;
