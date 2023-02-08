@@ -1,5 +1,5 @@
 import { replace, render, remove } from '../framework/render.js';
-import Point from '../view/point-view.js';
+import PointView from '../view/point-view.js';
 import EditPoint from '../view/edit-point-view.js';
 import { TYPE, UserAction, UpdateType } from '../const.js';
 
@@ -40,7 +40,7 @@ export default class PointPresenter {
     this.#destinations = destinations;
     const prevPointComponent = this.#pointComponent;
     const prevPointEditComponent = this.#pointEditComponent;
-    this.#pointComponent = new Point({
+    this.#pointComponent = new PointView({
       point: this.#point,
       onEditClick: this.#handlePointClick,
       onFavoriteClick: this.#handleFavoriteClick,
