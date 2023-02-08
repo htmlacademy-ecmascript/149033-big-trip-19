@@ -231,6 +231,7 @@ export default class TripEventsPresenter {
     }
     if( !this.points.length){
       this.#renderNoPoints();
+      render(this.#eventsListComponent, this.#tripEventsContainer, RenderPosition.AFTERBEGIN);
       return;
     }
     this.#renderSort();
