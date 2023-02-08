@@ -1,7 +1,7 @@
 import { replace, render, remove } from '../framework/render.js';
 import PointView from '../view/point-view.js';
 import EditPoint from '../view/edit-point-view.js';
-import { TYPE, UserAction, UpdateType } from '../const.js';
+import { TYPES, UserAction, UpdateType } from '../const.js';
 
 const Mode = {
   DEFAULT: 'DEFAULT',
@@ -48,7 +48,7 @@ export default class PointPresenter {
     this.#pointEditComponent = new EditPoint({
       listOffers: this.#offers,
       listDestinations: this.#destinations,
-      listType: TYPE,
+      listType: TYPES,
       point: this.#point,
       onFormSubmit: this.#handleFormSubmit,
       onEditClick: this.#handleEditPointClick,

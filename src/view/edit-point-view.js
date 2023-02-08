@@ -1,7 +1,7 @@
 import he from 'he';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { getDateHumanize } from '../utils/point.js';
-import { TYPE } from '../const.js';
+import { TYPES } from '../const.js';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 
@@ -53,7 +53,7 @@ const pointDefault = {
   destination: '',
   isFavorite: false,
   offers: [],
-  type: TYPE[0],
+  type: TYPES[0],
 };
 const getOffersByType = (typeCurrent, offers) => offers.find((item) => item.type === typeCurrent)?.offers;
 
