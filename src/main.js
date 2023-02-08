@@ -54,7 +54,7 @@ addBtnElement.addEventListener('click', (evt) => {
 });
 
 
-boardTripsPresenter.init();
+boardTripsPresenter.initTrip();
 Promise.all([destinationsModel.init(), offersModel.init(), pointsModel.init()]).finally(
   () => {
     boardTripsPresenter.init();

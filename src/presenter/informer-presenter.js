@@ -26,13 +26,13 @@ export default class InformerPresenter {
     this.#pointsModel.addObserver(this.#handleModelEvent);
   }
 
-  init = () => {
+  init() {
     this.#points = this.#points.sort(sortPointUp);
     this.#pointsWithDestinationsOffers = this.#pointsModel.getPointsWithDestinations({offers: this.#offers, destinations: this.#destinations});
     this.#informerComponent = new InformerView({pointsWithDestinationsOffers: this.#pointsWithDestinationsOffers});
 
     render(this.#informerComponent, this.#informerContainer, RenderPosition.AFTERBEGIN);
-  };
+  }
 
   #handleModelEvent = () => {
     remove(this.#informerComponent);

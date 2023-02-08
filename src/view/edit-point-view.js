@@ -52,7 +52,7 @@ const pointDefault = {
   dateTo: new Date(new Date().getTime() + 60000),
   destination: '',
   isFavorite: false,
-  offers:  [],
+  offers: [],
   type: TYPE[0],
 };
 const getOffersByType = (typeCurrent, offers) => offers.find((item) => item.type === typeCurrent)?.offers;
@@ -101,7 +101,7 @@ function createEditPointTemplate( listOffers, listDestinations, listType, pointS
             <span class="visually-hidden">Price</span>
             &euro;
           </label>
-          <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${basePrice}">
+          <input class="event__input  event__input--price" id="event-price-1" type="number" name="event-price" value="${basePrice}" required>
         </div>
 
         <button class="event__save-btn  btn  btn--blue" type="submit" ${isSubmitDisabled || isDisabled ? 'disabled' : ''}>${isSaving ? 'Saving...' : 'Save'}</button>
