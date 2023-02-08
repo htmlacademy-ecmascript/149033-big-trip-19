@@ -27,6 +27,9 @@ export default class InformerPresenter {
   }
 
   init() {
+    if(!this.#points.length) {
+      return;
+    }
     this.#points = this.#points.sort(sortPointUp);
     this.#pointsWithDestinationsOffers = this.#pointsModel.getPointsWithDestinations({offers: this.#offers, destinations: this.#destinations});
     this.#informerComponent = new InformerView({pointsWithDestinationsOffers: this.#pointsWithDestinationsOffers});
