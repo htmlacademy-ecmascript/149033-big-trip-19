@@ -45,6 +45,7 @@ export default class TripEventsPresenter {
     this.#offersModel = offersModel;
     this.#destinationsModel = destinationsModel;
     this.#filterModel = filterModel;
+
     this.#newPointPresenter = new NewPointPresenter({
       pointListContainer: this.#eventsListComponent.element,
       onDataChange: this.#handleViewAction,
@@ -76,14 +77,11 @@ export default class TripEventsPresenter {
     this.#renderTrip();
   }
 
-  initTrip() {
-    this.#renderTrip();
-  }
-
   createPoint() {
     this.#currentSortType = SortType.DAY;
     this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
     this.#newPointPresenter.init({offers: this.#offers, destinations: this.#destinations,});
+
   }
 
   #handleModeChange = () => {
@@ -224,6 +222,7 @@ export default class TripEventsPresenter {
     }
     if( !this.points.length){
       this.#renderNoPoints();
+      render(this.#eventsListComponent, this.#tripEventsContainer, RenderPosition.AFTERBEGIN);
       return;
     }
     this.#renderSort();

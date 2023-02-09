@@ -50,7 +50,7 @@ function createPointRouteTemplate(point) {
 </li>
 `;}
 
-export default class Point extends AbstractView{
+export default class PointView extends AbstractView{
   #point = null;
   #handleEditClick = null;
   #handleFavoriteClick = null;

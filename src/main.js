@@ -9,7 +9,7 @@ import PointsApiService from './points-api-service.js';
 import OffersApiService from './offers-api-service.js';
 import DestinationsApiService from './destinations-api-service.js';
 
-const AUTHORIZATION = 'Basic 99b235bd5a5c9de';
+const AUTHORIZATION = 'Basic 99b235bd5a5c9d1';
 const END_POINT = 'https://19.ecmascript.pages.academy/big-trip';
 
 const bodyElement = document.querySelector('.page-body');
@@ -54,7 +54,7 @@ addBtnElement.addEventListener('click', (evt) => {
 });
 
 
-boardTripsPresenter.initTrip();
+boardTripsPresenter.init();
 Promise.all([destinationsModel.init(), offersModel.init(), pointsModel.init()]).finally(
   () => {
     boardTripsPresenter.init();

@@ -1,7 +1,7 @@
 import {remove, render, RenderPosition} from '../framework/render.js';
 import EditPoint from '../view/edit-point-view.js';
 import {UserAction, UpdateType} from '../const.js';
-import { TYPE } from '../const.js';
+import { TYPES } from '../const.js';
 
 export default class NewPointPresenter {
   #pointListContainer = null;
@@ -28,7 +28,7 @@ export default class NewPointPresenter {
     this.#pointEditComponent = new EditPoint({
       listOffers: this.#offers,
       listDestinations: this.#destinations,
-      listType: TYPE,
+      listType: TYPES,
       onFormSubmit: this.#handleFormSubmit,
       onDeleteClick: this.#handleDeleteClick,
       onEditClick: this.#handleEditPointClick,

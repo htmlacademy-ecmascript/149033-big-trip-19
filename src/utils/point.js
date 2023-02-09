@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 const DATE_SERVICE_FORMAT = 'YYYY-MM-DD';
 const TIME_SERVICE_FORMAT = 'hh:mm';
 const DATE_FORMAT = 'DD MMM';
-const MINUTS_IN_HOUR = 60;
+const MINUTES_IN_HOUR = 60;
 
 const getDayMonth = (strDate) => strDate ? dayjs(strDate).format(DATE_FORMAT) : '';
 const getDateFromStr = (strDate) => strDate ? dayjs(strDate).format(DATE_SERVICE_FORMAT) : '';
@@ -11,10 +11,10 @@ const getTimeFromStr = (strDate) => strDate ? dayjs(strDate).format(TIME_SERVICE
 const getDiffTime = (dateFrom, dateTo) => {
   const diff = dayjs(dateTo).diff(dayjs(dateFrom), 'minutes');
 
-  const hour = Math.trunc( diff / MINUTS_IN_HOUR );
+  const hour = Math.trunc( diff / MINUTES_IN_HOUR );
   const strHour = hour !== 0 ? hour.toString().padStart(2, '0').concat('H') : '';
 
-  const minute = diff % MINUTS_IN_HOUR ;
+  const minute = diff % MINUTES_IN_HOUR ;
   const strMinute = minute !== 0 ? minute.toString().padStart(2, '0').concat('M') : '';
 
   return `${strHour} ${strMinute}`;
@@ -29,7 +29,7 @@ function isPastPoint(dueDate) {
   return dueDate && dayjs().isAfter(dueDate, 'D');
 }
 
-function isPesentPoint(dueDateFrom, dueDateTo) {
+function isPresentPoint(dueDateFrom, dueDateTo) {
   return dueDateFrom && dueDateTo && ( dayjs(dueDateFrom).isSame(dayjs(), 'D') || isPastPoint(dueDateFrom) ) && ( dayjs(dueDateTo).isSame(dayjs(), 'D') || isFuturePoint(dueDateTo) );
 }
 
@@ -63,4 +63,4 @@ function sortPointDownTime(pointA, pointB) {
   return dayjs(pointB.dateTo).diff(dayjs(pointB.dateFrom)) - dayjs(pointA.dateTo).diff(dayjs(pointA.dateFrom));
 }
 
-export { getDateFromStr, getTimeFromStr, getDayMonth, getDiffTime, getDateLocale, getDateHumanize, isFuturePoint, isPesentPoint, isPastPoint, sortPointUp, sortPointDownPrice, sortPointDownTime};
+export { getDateFromStr, getTimeFromStr, getDayMonth, getDiffTime, getDateLocale, getDateHumanize, isFuturePoint, isPresentPoint, isPastPoint, sortPointUp, sortPointDownPrice, sortPointDownTime};
