@@ -77,19 +77,10 @@ export default class TripEventsPresenter {
     this.#renderTrip();
   }
 
-  initTrip() {
-    this.#renderTrip();
-  }
-
   createPoint() {
     this.#currentSortType = SortType.DAY;
     this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
     this.#newPointPresenter.init({offers: this.#offers, destinations: this.#destinations,});
-    // if( !this.points.length){
-    //   this.#renderSort();
-    //   this.#renderEventsList();
-    //   remove(this.#listEmptyComponent);
-    // }
 
   }
 
